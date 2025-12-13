@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // READ
     public function index()
     {
         return User::select('id', 'name', 'username', 'role')->get();
     }
 
-    // CREATE
     public function store(Request $request)
     {
         $request->validate([
@@ -32,7 +30,6 @@ class UserController extends Controller
         ]);
     }
 
-    // UPDATE
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -45,7 +42,6 @@ class UserController extends Controller
         return response()->json(['message' => 'User updated']);
     }
 
-    // DELETE
     public function destroy(User $user)
     {
         $user->delete();

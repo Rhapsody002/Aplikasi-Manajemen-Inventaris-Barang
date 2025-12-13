@@ -9,13 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class BarangKeluarController extends Controller
 {
-    // READ
+
     public function index()
     {
         return BarangKeluar::with('barang')->get();
     }
 
-    // CREATE
     public function store(Request $request)
     {
         $request->validate([
@@ -25,7 +24,7 @@ class BarangKeluarController extends Controller
             'tanggal_keluar' => 'required|date'
         ]);
 
-        $barang = Barang::find($request->barang_id);
+        $barang = Barang::findOrFail($request->barang_id);
 
         if ($barang->stok < $request->jumlah) {
             return response()->json([
@@ -48,7 +47,6 @@ class BarangKeluarController extends Controller
         return response()->json(['message' => 'Barang keluar berhasil'], 201);
     }
 
-    // UPDATE
     public function update(Request $request, BarangKeluar $barangKeluar)
     {
         $request->validate([
@@ -56,26 +54,32 @@ class BarangKeluarController extends Controller
         ]);
 
         DB::transaction(function () use ($request, $barangKeluar) {
-            $barang = Barang::find($barangKeluar->barang_id);
+            $barang = Barang::findOrFail($barangKeluar->barang_id);
             $selisih = $request->jumlah - $barangKeluar->jumlah;
 
-            if ($barang->stok < $selisih) {
+            if ($selisih > 0 && $barang->stok < $selisih) {
                 abort(400, 'Stok tidak mencukupi');
             }
 
-            $barangKeluar->update($request->all());
-            $barang->decrement('stok', $selisih);
+            $barangKeluar->update([
+                'jumlah' => $request->jumlah
+            ]);
+
+            if ($selisih > 0) {
+                $barang->decrement('stok', $selisih);
+            } else {
+                $barang->increment('stok', abs($selisih));
+            }
         });
 
         return response()->json(['message' => 'Barang keluar diupdate']);
     }
 
-    // DELETE
     public function destroy(BarangKeluar $barangKeluar)
     {
         DB::transaction(function () use ($barangKeluar) {
-            Barang::find($barangKeluar->barang_id)
-                  ->increment('stok', $barangKeluar->jumlah);
+            Barang::findOrFail($barangKeluar->barang_id)
+                ->increment('stok', $barangKeluar->jumlah);
 
             $barangKeluar->delete();
         });
@@ -83,4 +87,3 @@ class BarangKeluarController extends Controller
         return response()->json(['message' => 'Barang keluar dihapus']);
     }
 }
-

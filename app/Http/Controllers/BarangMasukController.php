@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class BarangMasukController extends Controller
 {
-    
+
     public function index()
     {
-        return BarangMasuk::with(['barang','supplier'])->get();
+        return BarangMasuk::with(['barang', 'supplier'])->get();
     }
 
- 
+
     public function store(Request $request)
     {
         $request->validate([
@@ -27,21 +27,20 @@ class BarangMasukController extends Controller
 
         DB::transaction(function () use ($request) {
             BarangMasuk::create([
-                'barang_id'   => $request->barang_id,
-                'supplier_id' => $request->supplier_id,
-                'jumlah'      => $request->jumlah,
+                'barang_id'     => $request->barang_id,
+                'supplier_id'   => $request->supplier_id,
+                'jumlah'        => $request->jumlah,
                 'tanggal_masuk' => $request->tanggal_masuk,
-                'user_id'     => 1
+                'user_id'       => 1
             ]);
 
-            Barang::find($request->barang_id)
-                  ->increment('stok', $request->jumlah);
+            Barang::findOrFail($request->barang_id)
+                ->increment('stok', $request->jumlah);
         });
 
         return response()->json(['message' => 'Barang masuk berhasil'], 201);
     }
 
-    // UPDATE
     public function update(Request $request, BarangMasuk $barangMasuk)
     {
         $request->validate([
@@ -51,21 +50,22 @@ class BarangMasukController extends Controller
         DB::transaction(function () use ($request, $barangMasuk) {
             $selisih = $request->jumlah - $barangMasuk->jumlah;
 
-            $barangMasuk->update($request->all());
+            $barangMasuk->update([
+                'jumlah' => $request->jumlah
+            ]);
 
-            Barang::find($barangMasuk->barang_id)
-                  ->increment('stok', $selisih);
+            Barang::findOrFail($barangMasuk->barang_id)
+                ->increment('stok', $selisih);
         });
 
         return response()->json(['message' => 'Barang masuk diupdate']);
     }
 
-    // DELETE
     public function destroy(BarangMasuk $barangMasuk)
     {
         DB::transaction(function () use ($barangMasuk) {
-            Barang::find($barangMasuk->barang_id)
-                  ->decrement('stok', $barangMasuk->jumlah);
+            Barang::findOrFail($barangMasuk->barang_id)
+                ->decrement('stok', $barangMasuk->jumlah);
 
             $barangMasuk->delete();
         });
