@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/feather/css/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
 </head>
 
 <body class="pcoded">

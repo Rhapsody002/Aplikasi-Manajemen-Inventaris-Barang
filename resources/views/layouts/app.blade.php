@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/feather/css/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
 </head>
 
 <body class="pcoded">
@@ -64,6 +66,70 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.btn-delete').forEach(button => {
+
+        button.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+
+            Swal.fire({
+                title: 'Hapus Kategori?',
+                text: `Kategori "${name}" akan dihapus permanen`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#9ba4adff',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('preview');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('preview');
+    const file = input.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
 
 
 </body>

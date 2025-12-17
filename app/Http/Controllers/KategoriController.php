@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::paginate(10);
+        $kategori = Kategori::when($request->search, function ($q) use ($request) {
+            $q->where('name_kategori', 'like', '%' . $request->search . '%');
+        })->paginate(8);
+
         return view('kategori.index', compact('kategori'));
     }
 
@@ -20,14 +24,18 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kategori' => 'required'
+        $data = $request->validate([
+            'name_kategori' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        Kategori::create($request->all());
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('kategori', 'public');
+        }
 
-        return redirect()
-            ->route('kategori.index')
+        Kategori::create($data);
+
+        return redirect()->route('kategori.index')
             ->with('success', 'Kategori berhasil ditambahkan');
     }
 
@@ -38,23 +46,34 @@ class KategoriController extends Controller
 
     public function update(Request $request, Kategori $kategori)
     {
-        $request->validate([
-            'nama_kategori' => 'required'
+        $data = $request->validate([
+            'name_kategori' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $kategori->update($request->all());
+        if ($request->hasFile('image')) {
+            if ($kategori->image && Storage::disk('public')->exists($kategori->image)) {
+                Storage::disk('public')->delete($kategori->image);
+            }
 
-        return redirect()
-            ->route('kategori.index')
-            ->with('success', 'Kategori berhasil diupdate');
+            $data['image'] = $request->file('image')->store('kategori', 'public');
+        }
+
+        $kategori->update($data);
+
+        return redirect()->route('kategori.index')
+            ->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy(Kategori $kategori)
     {
+        if ($kategori->image && Storage::disk('public')->exists($kategori->image)) {
+            Storage::disk('public')->delete($kategori->image);
+        }
+
         $kategori->delete();
 
-        return redirect()
-            ->route('kategori.index')
+        return redirect()->route('kategori.index')
             ->with('success', 'Kategori berhasil dihapus');
     }
 }
