@@ -9,9 +9,8 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        return view('kategori.index', [
-            'kategori' => Kategori::all()
-        ]);
+        $kategori = Kategori::paginate(10);
+        return view('kategori.index', compact('kategori'));
     }
 
     public function create()
@@ -27,8 +26,9 @@ class KategoriController extends Controller
 
         Kategori::create($request->all());
 
-        return redirect()->route('kategori.index')
-            ->with('Succees', 'kategori berhasil ditambahkan');
+        return redirect()
+            ->route('kategori.index')
+            ->with('success', 'Kategori berhasil ditambahkan');
     }
 
     public function edit(Kategori $kategori)
@@ -41,12 +41,20 @@ class KategoriController extends Controller
         $request->validate([
             'nama_kategori' => 'required'
         ]);
+
+        $kategori->update($request->all());
+
+        return redirect()
+            ->route('kategori.index')
+            ->with('success', 'Kategori berhasil diupdate');
     }
 
     public function destroy(Kategori $kategori)
     {
         $kategori->delete();
 
-        return back()->with('Success', 'Kategori berhasil dihapus');
+        return redirect()
+            ->route('kategori.index')
+            ->with('success', 'Kategori berhasil dihapus');
     }
 }

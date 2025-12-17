@@ -12,6 +12,7 @@ class Barang extends Model
         'kode_barang',
         'nama_barang',
         'kategori_id',
+        'lokasi_id',
         'stok',
         'satuan'
     ];
@@ -19,5 +20,10 @@ class Barang extends Model
     public function kategori()
     {
         return $this->belongsTo(kategori::class);
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class);
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LokasiController;
 
 // Default
 Route::get('/', function () {
@@ -22,17 +23,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth.check');
 
 // Dashboard (login required)
+use App\Http\Controllers\DashboardController;
+
 Route::middleware('auth.check')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return response()->json([
-            'message' => 'Dashboard',
-            'user' => Auth::user(),
-            'last_login' => session('last_login')
-        ]);
-    });
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 });
+
 
 // Admin
 Route::middleware(['auth.check', 'role:admin'])->group(function () {
@@ -52,4 +49,21 @@ Route::middleware(['auth.check', 'role:manajer'])->group(function () {
     Route::get('/laporan', function () {
         return 'Laporan Gudang';
     });
+});
+
+//Login
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+//Logout
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
+
+//Kategori
+Route::middleware(['auth.check'])->group(function () {
+    Route::resource('kategori', KategoriController::class);
 });

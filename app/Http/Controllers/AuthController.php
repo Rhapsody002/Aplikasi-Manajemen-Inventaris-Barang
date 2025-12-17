@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-
     public function index()
     {
+        // Jika sudah login, redirect ke dashboard
         if (Auth::check()) {
-            // sudah login → arahkan ke dashboard
             return redirect('/dashboard');
         }
 
-        // belum login → boleh ke halaman login
         return view('auth.login');
     }
 
-    //Form Login
+    // Proses Login
     public function login(Request $request)
     {
         $request->validate([
@@ -31,30 +29,22 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            session(['last_login' => now()]);
-
-            return response()->json([
-                'message' => 'Login Berhasil',
-                'user' => Auth::user()
-            ]);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return back()->with('error', 'Username atau password salah');
         }
 
-        return response()->json([
-            'message' => 'Login gagal'
-        ], 401);
+        Auth::login($user);
+        session(['last_login' => now()]);
+
+        return redirect('/dashboard');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json([
-            'message' => 'Logout berhasil'
-        ]);
+        return redirect('/login');
     }
 }
