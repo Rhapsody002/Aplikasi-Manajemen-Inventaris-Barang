@@ -5,30 +5,22 @@
     <title>@yield('title', 'Dashboard')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {{-- Flash Able CSS --}}
+    {{-- CSS --}}
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/feather/css/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-
 </head>
 
 <body class="pcoded">
-
-{{-- Loader --}}
-<div class="loader-bg">
-    <div class="loader-track">
-        <div class="loader-fill"></div>
-    </div>
-</div>
 
 <div class="pcoded-wrapper">
 
     {{-- Sidebar --}}
     @include('partials.sidebar')
 
-    {{-- Header (Flash Able) --}}
+    {{-- Navbar --}}
     @include('partials.navbar')
 
     {{-- Main Content --}}
@@ -42,39 +34,19 @@
 
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const body = document.body;
-    const toggle = document.getElementById("mobile-collapse");
-
-    if (localStorage.getItem("sidebar") === "collapsed") {
-        body.classList.add("navbar-collapsed");
-    }
-
-    toggle.addEventListener("click", function () {
-        setTimeout(() => {
-            if (body.classList.contains("navbar-collapsed")) {
-                localStorage.setItem("sidebar", "collapsed");
-            } else {
-                localStorage.setItem("sidebar", "open");
-            }
-        }, 200);
-    });
-});
-</script>
-
+{{-- JS CORE --}}
 <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
+
 {{-- SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- DELETE CONFIRM --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     document.querySelectorAll('.btn-delete').forEach(button => {
-
         button.addEventListener('click', function () {
-
             const id = this.dataset.id;
             const name = this.dataset.name;
 
@@ -84,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#e3342f',
-                cancelButtonColor: '#9ba4adff',
+                cancelButtonColor: '#9ca3af',
                 confirmButtonText: 'Ya, hapus',
                 cancelButtonText: 'Batal'
             }).then((result) => {
@@ -92,29 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById(`delete-form-${id}`).submit();
                 }
             });
-
         });
-
     });
-
 });
 </script>
 
-<script>
-function previewImage(input) {
-    const preview = document.getElementById('preview');
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-</script>
-
+{{-- IMAGE PREVIEW --}}
 <script>
 function previewImage(input) {
     const preview = document.getElementById('preview');
@@ -124,13 +79,12 @@ function previewImage(input) {
         const reader = new FileReader();
         reader.onload = e => {
             preview.src = e.target.result;
+            preview.style.display = 'block';
         };
         reader.readAsDataURL(file);
     }
 }
 </script>
-
-
 
 </body>
 </html>

@@ -66,4 +66,5 @@ Route::post('/logout', function () {
 //Kategori
 Route::middleware(['auth.check'])->group(function () {
     Route::resource('kategori', KategoriController::class);
+
 });

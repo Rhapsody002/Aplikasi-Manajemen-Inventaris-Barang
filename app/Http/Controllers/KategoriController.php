@@ -10,9 +10,14 @@ class KategoriController extends Controller
 {
     public function index(Request $request)
     {
-        $kategori = Kategori::when($request->search, function ($q) use ($request) {
-            $q->where('name_kategori', 'like', '%' . $request->search . '%');
-        })->paginate(8);
+        $query = Kategori::query();
+
+        if ($request->filled('search')) {
+            $query->where('name_kategori', 'like', '%'.$request->search.'%');
+        }
+
+        $kategori = $query->latest()->paginate(8);
+        $kategori->appends($request->only('search'));
 
         return view('kategori.index', compact('kategori'));
     }
@@ -25,7 +30,7 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name_kategori' => 'required',
+            'name_kategori' => 'required|string|max:100',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -47,15 +52,14 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $data = $request->validate([
-            'name_kategori' => 'required',
+            'name_kategori' => 'required|string|max:100',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
-            if ($kategori->image && Storage::disk('public')->exists($kategori->image)) {
+            if ($kategori->image) {
                 Storage::disk('public')->delete($kategori->image);
             }
-
             $data['image'] = $request->file('image')->store('kategori', 'public');
         }
 
@@ -67,7 +71,7 @@ class KategoriController extends Controller
 
     public function destroy(Kategori $kategori)
     {
-        if ($kategori->image && Storage::disk('public')->exists($kategori->image)) {
+        if ($kategori->image) {
             Storage::disk('public')->delete($kategori->image);
         }
 

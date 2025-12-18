@@ -23,6 +23,33 @@
                 </a>
             </a>
         </div>
+        {{-- USER PROFILE --}}
+        <!-- <div class="sidebar-user text-center mt-3 mb-4">
+
+            <img src="{{ auth()->user()->avatar 
+        ? asset('storage/'.auth()->user()->avatar) 
+        : asset('assets/images/user/default.png') }}"
+                class="rounded-circle mb-2"
+                width="60"
+                height="60"
+                style="object-fit:cover">
+
+            <div class="fw-semibold text-white">
+                {{ auth()->user()->name }}
+            </div>
+
+            <small class="text-white-50">
+                {{ auth()->user()->role }}
+            </small>
+
+            <form action="{{ route('logout') }}" method="POST" class="mt-3">
+                @csrf
+                <button class="btn btn-sm btn-outline-light w-100">
+                    <i class="feather icon-log-out"></i> Logout
+                </button>
+            </form>
+
+        </div> -->
 
         {{-- MENU --}}
         <div class="navbar-content scroll-div">
