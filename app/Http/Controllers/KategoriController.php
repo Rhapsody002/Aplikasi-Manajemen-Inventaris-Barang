@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class KategoriController extends Controller
 {
+
     public function index(Request $request)
     {
         $query = Kategori::query();
 
         if ($request->filled('search')) {
-            $query->where('name_kategori', 'like', '%'.$request->search.'%');
+            $query->where('nama_kategori', 'like', '%' . $request->search . '%');
         }
 
         $kategori = $query->latest()->paginate(8);
@@ -30,12 +31,14 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name_kategori' => 'required|string|max:100',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'nama_kategori' => 'required|string|max:100',
+            'gambar_kategori' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('kategori', 'public');
+        if ($request->hasFile('gambar_kategori')) {
+            $data['gambar_kategori'] = $request
+                ->file('gambar_kategori')
+                ->store('kategori', 'public');
         }
 
         Kategori::create($data);
@@ -52,15 +55,19 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $data = $request->validate([
-            'name_kategori' => 'required|string|max:100',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'nama_kategori' => 'required|string|max:100',
+            'gambar_kategori' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($kategori->image) {
-                Storage::disk('public')->delete($kategori->image);
+        if ($request->hasFile('gambar_kategori')) {
+            if ($kategori->gambar_kategori &&
+                Storage::disk('public')->exists($kategori->gambar_kategori)) {
+                Storage::disk('public')->delete($kategori->gambar_kategori);
             }
-            $data['image'] = $request->file('image')->store('kategori', 'public');
+
+            $data['gambar_kategori'] = $request
+                ->file('gambar_kategori')
+                ->store('kategori', 'public');
         }
 
         $kategori->update($data);
@@ -71,8 +78,9 @@ class KategoriController extends Controller
 
     public function destroy(Kategori $kategori)
     {
-        if ($kategori->image) {
-            Storage::disk('public')->delete($kategori->image);
+        if ($kategori->gambar_kategori &&
+            Storage::disk('public')->exists($kategori->gambar_kategori)) {
+            Storage::disk('public')->delete($kategori->gambar_kategori);
         }
 
         $kategori->delete();

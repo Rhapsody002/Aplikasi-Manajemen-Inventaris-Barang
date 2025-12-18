@@ -7,34 +7,54 @@ use Illuminate\Http\Request;
 
 class LokasiController extends Controller
 {
+
     public function index()
     {
-        return Lokasi::all();
+        $lokasi = Lokasi::latest()->paginate(10);
+        return view('lokasi.index', compact('lokasi'));
+    }
+
+    public function create()
+    {
+        return view('lokasi.create');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama_lokasi' => 'required|string|max:100',
             'keterangan'  => 'nullable|string',
         ]);
 
-        Lokasi::create($request->all());
+        Lokasi::create($data);
 
-        return response()->json(['message' => 'Lokasi berhasil ditambahkan']);
+        return redirect()->route('lokasi.index')
+            ->with('success', 'Lokasi berhasil ditambahkan');
+    }
+
+    public function edit(Lokasi $lokasi)
+    {
+        return view('lokasi.edit', compact('lokasi'));
     }
 
     public function update(Request $request, Lokasi $lokasi)
     {
-        $lokasi->update($request->all());
+        $data = $request->validate([
+            'nama_lokasi' => 'required|string|max:100',
+            'keterangan'  => 'nullable|string',
+        ]);
 
-        return response()->json(['message' => 'Lokasi berhasil diupdate']);
+        $lokasi->update($data);
+
+        return redirect()->route('lokasi.index')
+            ->with('success', 'Lokasi berhasil diperbarui');
     }
 
     public function destroy(Lokasi $lokasi)
     {
         $lokasi->delete();
 
-        return response()->json(['message' => 'Lokasi berhasil dihapus']);
+        return redirect()->route('lokasi.index')
+            ->with('success', 'Lokasi berhasil dihapus');
     }
 }

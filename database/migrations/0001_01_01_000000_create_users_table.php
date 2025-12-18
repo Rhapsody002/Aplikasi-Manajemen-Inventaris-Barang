@@ -14,10 +14,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role',['admin','petugas','manajer']);
+            $table->enum('role', ['admin', 'petugas', 'manajer']);
+            $table->string('foto_profil')->nullable(); // FOTO USER
             $table->rememberToken();
             $table->timestamps();
         });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

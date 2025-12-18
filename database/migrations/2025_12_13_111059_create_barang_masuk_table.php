@@ -11,16 +11,14 @@ return new class extends Migration
     {
         Schema::create('barang_masuk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('barang_id')
-                ->constrained('barang')
-                ->cascadeOnDelete();
-            $table->foreignId('supplier_id')
-                ->constrained('supplier')
-                ->cascadeOnDelete();
+
+            $table->foreignId('barang_id')->constrained('barang')->cascadeOnDelete();
+            $table->foreignId('supplier_id')->constrained('supplier')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+
             $table->integer('jumlah');
             $table->date('tanggal_masuk');
-            $table->foreignId('user_id')
-                ->constrained('users');
+
             $table->timestamps();
         });
     }

@@ -13,11 +13,13 @@ return new class extends Migration
             $table->id();
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
-            $table->foreignId('kategori_id')
-                ->constrained('kategori')
-                ->cascadeOnDelete();
+
+            $table->foreignId('kategori_id')->constrained('kategori')->cascadeOnDelete();
+            $table->foreignId('lokasi_id')->constrained('lokasi')->cascadeOnDelete();
+
             $table->integer('stok')->default(0);
-            $table->string('satuan');
+            $table->string('foto_barang')->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

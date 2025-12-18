@@ -1,23 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Data Kategori')
+@section('title', 'Data Lokasi')
 
 @section('content')
 
 {{-- HEADER --}}
 <div class="page-header mb-4">
-    <h4 class="fw-bold">Data Kategori</h4>
-    <span class="text-muted">Manajemen kategori barang gudang</span>
+    <h4 class="page-title d-flex align-items-center gap-2">
+        <i class="feather icon-map-pin text-primary"></i>
+        Data Lokasi
+    </h4>
+    <span class="text-muted">
+        Manajemen lokasi penyimpanan barang
+    </span>
 </div>
 
 {{-- INFO --}}
 <div class="row mb-4">
     <div class="col-md-3">
         <div class="info-box">
-            <i class="feather icon-layers"></i>
+            <i class="feather icon-map-pin"></i>
             <div>
-                <small>Total Kategori</small>
-                <h5 class="mb-0">{{ $kategori->total() }}</h5>
+                <h6>Total Lokasi</h6>
+                <strong>{{ $lokasi->total() }}</strong>
             </div>
         </div>
     </div>
@@ -26,89 +31,84 @@
 {{-- ACTION BAR --}}
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
-    {{-- Tambah --}}
     @if(auth()->user()->role === 'admin')
-    <a href="{{ route('kategori.create') }}"
+    <a href="{{ route('lokasi.create') }}"
         class="btn btn-success btn-add-category d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill">
         <i class="feather icon-plus"></i>
-        Tambah Kategori
+        Tambah Lokasi
     </a>
     @endif
-    {{-- Search --}}
-    <form method="GET" class="search-group">
 
-        <i class="feather icon-search search-icon"></i>
-
+    <form method="GET" class="search-wrapper">
+        <i class="feather icon-search"></i>
         <input type="text"
             name="search"
-            class="form-control search-input"
-            placeholder="Cari kategori..."
+            class="form-control"
+            placeholder="Cari lokasi..."
             value="{{ request('search') }}">
-
-        @if(request('search'))
-        <a href="{{ route('kategori.index') }}"
-            class="search-clear"
-            title="Reset pencarian">
-            <i class="feather icon-x"></i>
-        </a>
-        @endif
-
     </form>
 
 </div>
 
-
 {{-- GRID --}}
 <div class="row">
-    @forelse($kategori as $item)
-    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+    @forelse($lokasi as $item)
+    <div class="col-md-4 col-lg-3 mb-4">
         <div class="card category-card h-100">
             <div class="card-body text-center">
 
-                <div class="category-image-wrapper mb-3">
-                    <img src="{{ $item->gambar_kategori
-                        ? asset('storage/'.$item->gambar_kategori)
-                        : asset('assets/images/default-category.png') }}"
-                        class="category-image-rect">
+                <div class="category-icon mb-3">
+                    <i class="feather icon-map-pin"></i>
                 </div>
 
                 <h5 class="category-title">
-                    {{ $item->nama_kategori }}
+                    {{ $item->nama_lokasi }}
                 </h5>
 
+                @if($item->keterangan)
+                <small class="text-muted">
+                    {{ $item->keterangan }}
+                </small>
+                @endif
+
+                {{-- ACTION --}}
                 @if(auth()->user()->role === 'admin')
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <a href="{{ route('kategori.edit', $item->id) }}"
+                    <a href="{{ route('lokasi.edit', $item->id) }}"
                         class="btn btn-warning btn-sm">
                         <i class="feather icon-edit"></i>Edit
                     </a>
 
-                    <form id="delete-form-{{ $item->id }}"
-                        action="{{ route('kategori.destroy', $item->id) }}"
-                        method="POST">
+                    <form action="{{ route('lokasi.destroy', $item->id) }}"
+                        method="POST"
+                        id="delete-form-{{ $item->id }}"
+                        class="d-inline">
                         @csrf
                         @method('DELETE')
 
                         <button type="button"
                             class="btn btn-danger btn-sm btn-delete"
                             data-id="{{ $item->id }}"
-                            data-name="{{ $item->nama_kategori }}">
-                            <i class="feather icon-trash"></i>Delete
+                            data-name="{{ $item->nama_lokasi }}">
+                            <i class="feather icon-trash"></i> Delete
                         </button>
                     </form>
                 </div>
                 @endif
+
             </div>
         </div>
     </div>
     @empty
     <div class="col-12 text-center py-5">
         <i class="feather icon-inbox f-40 text-muted"></i>
-        <p class="mt-2">Belum ada data kategori</p>
+        <p class="mt-2">Belum ada data lokasi</p>
     </div>
     @endforelse
 </div>
 
-{{ $kategori->links() }}
+<div class="mt-4">
+    {{ $lokasi->links() }}
+</div>
 
 @endsection

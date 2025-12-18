@@ -42,7 +42,7 @@
 {{-- SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- DELETE CONFIRM --}}
+{{-- DELETE CONFIRM KATEGORI --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-delete').forEach(button => {
@@ -86,5 +86,35 @@ function previewImage(input) {
 }
 </script>
 
+{{-- DELETE CONFIRM LOKASI --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            const id   = this.dataset.id;
+            const name = this.dataset.name;
+
+            Swal.fire({
+                title: 'Hapus Lokasi?',
+                text: `Lokasi "${name}" akan dihapus permanen`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#9ba4ad',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+
+        });
+    });
+
+});
+</script>
 </body>
 </html>

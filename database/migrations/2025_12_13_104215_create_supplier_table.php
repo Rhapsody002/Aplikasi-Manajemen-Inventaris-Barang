@@ -11,9 +11,10 @@ return new class extends Migration
     {
         Schema::create('supplier', function (Blueprint $table) {
             $table->id();
-            $table->string('name_supplier');
-            $table->text('alamat');
-            $table->string('telepon');
+            $table->string('nama_supplier');
+            $table->string('telepon')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('logo_supplier')->nullable();
             $table->timestamps();
         });
     }

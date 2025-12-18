@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Kategori extends Model
 {
     protected $table = 'kategori';
-    
+
     protected $fillable = [
-        'name_kategori',
-        'image'
+        'nama_kategori',
+        'gambar_kategori',
+        'keterangan'
     ];
 
     public function barang()
