@@ -60,8 +60,10 @@ class KategoriController extends Controller
         ]);
 
         if ($request->hasFile('gambar_kategori')) {
-            if ($kategori->gambar_kategori &&
-                Storage::disk('public')->exists($kategori->gambar_kategori)) {
+            if (
+                $kategori->gambar_kategori &&
+                Storage::disk('public')->exists($kategori->gambar_kategori)
+            ) {
                 Storage::disk('public')->delete($kategori->gambar_kategori);
             }
 
@@ -78,8 +80,15 @@ class KategoriController extends Controller
 
     public function destroy(Kategori $kategori)
     {
-        if ($kategori->gambar_kategori &&
-            Storage::disk('public')->exists($kategori->gambar_kategori)) {
+        if ($kategori->barang()->exists()) {
+            return redirect()->route('kategori.index')
+                ->with('error', 'Kategori tidak dapat dihapus karena masih digunakan oleh barang.');
+        }
+
+        if (
+            $kategori->gambar_kategori &&
+            Storage::disk('public')->exists($kategori->gambar_kategori)
+        ) {
             Storage::disk('public')->delete($kategori->gambar_kategori);
         }
 

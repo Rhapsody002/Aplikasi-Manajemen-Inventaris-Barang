@@ -3,61 +3,114 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Kategori;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class BarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Barang::with('kategori')->get();
+        $query = Barang::with(['kategori', 'lokasi']);
+
+        if ($request->filled('search')) {
+            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+        }
+
+        $barang = $query->latest()->paginate(8);
+        $barang->appends($request->only('search'));
+
+        return view('barang.index', compact('barang'));
     }
+
+    public function create()
+    {
+        return view('barang.create', [
+            'barang'   => null,
+            'kategori' => Kategori::all(),
+            'lokasi'   => Lokasi::all(),
+        ]);
+    }
+
 
     public function store(Request $request)
-{
-    $request->validate([
-        'kode_barang' => 'required|unique:barang,kode_barang',
-        'nama_barang' => 'required',
-        'kategori_id' => 'required|exists:kategori,id',
-        'lokasi_id'   => 'required|exists:lokasi,id',
-        'stok'        => 'required|integer|min:0',
-        'satuan'      => 'required',
-    ]);
+    {
+        $data = $request->validate([
+            'kode_barang' => 'required|unique:barang,kode_barang',
+            'nama_barang' => 'required',
+            'kategori_id' => 'required|exists:kategori,id',
+            'lokasi_id'   => 'nullable|exists:lokasi,id',
+            'stok'        => 'required|integer|min:0',
+            'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'keterangan'  => 'nullable'
+        ]);
 
-    Barang::create([
-        'kode_barang' => $request->kode_barang,
-        'nama_barang' => $request->nama_barang,
-        'kategori_id' => $request->kategori_id,
-        'lokasi_id'   => $request->lokasi_id, 
-        'stok'        => $request->stok,
-        'satuan'      => $request->satuan,
-    ]);
+        if ($request->hasFile('foto_barang')) {
+            $data['foto_barang'] = $request
+                ->file('foto_barang')
+                ->store('barang', 'public'); 
+        }
 
-    return response()->json([
-        'message' => 'Barang berhasil ditambahkan'
-    ]);
+        Barang::create($data);
 
-    //Filter Berdasarkan lokasi
-    if ($request->filled('lokasi_id')) {
-        $query->where('lokasi_id', $request->lokasi_id);
+        return redirect()->route('barang.index')
+            ->with('success', 'Barang berhasil ditambahkan');
     }
-
-    return $query->get();
-}
 
     public function show(Barang $barang)
     {
-        return $barang->load('kategori');
+        return view('barang.show', [
+            'barang' => $barang->load(['kategori', 'lokasi'])
+        ]);
     }
+
+    public function edit(Barang $barang)
+    {
+        return view('barang.edit', [
+            'barang'   => $barang,
+            'kategori' => Kategori::all(),
+            'lokasi'   => Lokasi::all(),
+        ]);
+    }
+
 
     public function update(Request $request, Barang $barang)
     {
-        $barang->update($request->all());
-        return $barang;
+        $data = $request->validate([
+            'nama_barang' => 'required',
+            'kategori_id' => 'required|exists:kategori,id',
+            'lokasi_id'   => 'nullable|exists:lokasi,id',
+            'stok'        => 'required|integer|min:0',
+            'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'keterangan'  => 'nullable'
+        ]);
+
+        if ($request->hasFile('foto_barang')) {
+            if ($barang->foto_barang) {
+                Storage::disk('public')->delete($barang->foto_barang);
+            }
+
+            $data['foto_barang'] = $request->file('foto_barang')
+                ->store('barang', 'public');
+        }
+
+        $barang->update($data);
+
+        return redirect()->route('barang.index')
+            ->with('success', 'Barang berhasil diperbarui');
     }
 
     public function destroy(Barang $barang)
     {
+        if ($barang->foto_barang) {
+            Storage::disk('public')->delete($barang->foto_barang);
+        }
+
         $barang->delete();
-        return response()->json(['Message' => 'Deleted']);
+
+        return redirect()->route('barang.index')
+            ->with('success', 'Barang berhasil dihapus');
     }
 }

@@ -14,8 +14,14 @@ return new class extends Migration
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
 
-            $table->foreignId('kategori_id')->constrained('kategori')->cascadeOnDelete();
-            $table->foreignId('lokasi_id')->constrained('lokasi')->cascadeOnDelete();
+            $table->foreignId('kategori_id')
+                ->constrained('kategori')
+                ->restrictOnDelete();
+
+            $table->foreignId('lokasi_id')
+                ->nullable()
+                ->constrained('lokasi')
+                ->restrictOnDelete();
 
             $table->integer('stok')->default(0);
             $table->string('foto_barang')->nullable();

@@ -52,9 +52,16 @@ class LokasiController extends Controller
 
     public function destroy(Lokasi $lokasi)
     {
+        if ($lokasi->barang()->count() > 0) {
+            return redirect()
+                ->route('lokasi.index')
+                ->with('lokasi_error');
+        }
+
         $lokasi->delete();
 
-        return redirect()->route('lokasi.index')
-            ->with('success', 'Lokasi berhasil dihapus');
+        return redirect()
+            ->route('lokasi.index')
+            ->with('success');
     }
 }

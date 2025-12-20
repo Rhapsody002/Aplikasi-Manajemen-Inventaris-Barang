@@ -111,4 +111,11 @@
     {{ $lokasi->links() }}
 </div>
 
+@if(session('error'))
+<div class="alert alert-danger d-flex align-items-center gap-2">
+    <i class="feather icon-alert-circle"></i>
+    {{ session('error') }}
+</div>
+@endif
+
 @endsection

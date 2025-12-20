@@ -14,12 +14,13 @@ class Barang extends Model
         'kategori_id',
         'lokasi_id',
         'stok',
-        'satuan'
+        'foto_barang',   
+        'keterangan',    
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(kategori::class);
+        return $this->belongsTo(Kategori::class);
     }
 
     public function lokasi()

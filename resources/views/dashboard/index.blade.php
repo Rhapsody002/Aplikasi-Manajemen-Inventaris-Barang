@@ -3,47 +3,107 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col">
-                <h5 class="m-b-10">Dashboard</h5>
-                <p class="text-muted m-b-0">
-                    Ringkasan data gudang hari ini
-                </p>
-            </div>
-        </div>
-    </div>
+
+{{-- HEADER --}}
+<div class="page-header mb-5">
+    <h4 class="fw-bold mb-1">Dashboard</h4>
+    <span class="text-muted">Ringkasan data gudang hari ini</span>
 </div>
 
 <div class="row">
 
-    <div class="col-md-4">
-        <div class="card bg-light-primary">
-            <div class="card-body">
-                <h6>Total Barang</h6>
-                <h3>0</h3>
+    {{-- TOTAL BARANG --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-primary">
+                    <i class="feather icon-box"></i>
+                </div>
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Barang</span>
+                    <h2 class="dashboard-value">{{ $totalBarang }}</h2>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card bg-light-success">
-            <div class="card-body">
-                <h6>Barang Masuk Hari Ini</h6>
-                <h3>0</h3>
+    {{-- TOTAL STOK --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-info">
+                    <i class="feather icon-package"></i>
+                </div>
+
+
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Stok</span>
+                    <h2 class="dashboard-value">{{ $totalStok }}</h2>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card bg-light-danger">
-            <div class="card-body">
-                <h6>Barang Keluar Hari Ini</h6>
-                <h3>0</h3>
+    {{-- TOTAL KATEGORI --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-warning">
+                    <i class="feather icon-layers"></i>
+                </div>
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Kategori</span>
+                    <h2 class="dashboard-value">{{ $totalKategori }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- TOTAL LOKASI --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-secondary">
+                    <i class="feather icon-map-pin"></i>
+                </div>
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Lokasi</span>
+                    <h2 class="dashboard-value">{{ $totalLokasi }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- BARANG MASUK --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-success">
+                    <i class="feather icon-log-in"></i>
+                </div>
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Barang Masuk</span>
+                    <h2 class="dashboard-value">{{ $totalBarangMasuk }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- BARANG KELUAR --}}
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="dashboard-icon bg-danger">
+                    <i class="feather icon-log-out"></i>
+                </div>
+                <div class="dashboard-info">
+                    <span class="dashboard-title">Total Barang Keluar</span>
+                    <h2 class="dashboard-value">{{ $totalBarangKeluar }}</h2>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
+
 @endsection

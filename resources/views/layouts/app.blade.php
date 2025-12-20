@@ -116,5 +116,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
+
+{{-- DELETE CONFIRM BARANG --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            const id   = this.dataset.id;
+            const name = this.dataset.name;
+
+            Swal.fire({
+                title: 'Hapus Barang?',
+                text: `Barang "${name}" akan dihapus permanen`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#9ba4ad',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+
+        });
+    });
+
+});
+</script>
+
 </body>
 </html>
