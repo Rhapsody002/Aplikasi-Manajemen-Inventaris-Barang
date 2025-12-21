@@ -68,30 +68,37 @@
                 </small>
 
                 <div class="mt-2">
-                    <span class="badge bg-info">
+                    <span class="badge bg-info text-white">
                         Stok: {{ $item->stok }}
                     </span>
                 </div>
 
                 @if(auth()->user()->role === 'admin')
                 <div class="d-flex justify-content-center gap-2 mt-3">
+
                     <a href="{{ route('barang.edit', $item->id) }}"
-                        class="btn btn-warning btn-sm">
-                        <i class="feather icon-edit"></i>Edit
+                        class="btn btn-outline-warning btn-sm px-3">
+                        <i class="feather icon-edit"></i> Edit
                     </a>
 
                     <form action="{{ route('barang.destroy', $item->id) }}"
-                        method="POST">
+                        method="POST"
+                        id="delete-form-{{ $item->id }}"
+                        class="d-inline">
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit"
-                            class="btn btn-danger btn-sm">
-                            <i class="feather icon-trash"></i>Delete
+                        <button type="button"
+                            class="btn btn-outline-danger btn-sm px-3 btn-delete"
+                            data-id="{{ $item->id }}"
+                            data-name="{{ $item->nama_barang }}">
+                            <i class="feather icon-trash"></i> Delete
                         </button>
                     </form>
+
                 </div>
                 @endif
+
             </div>
         </div>
     </div>

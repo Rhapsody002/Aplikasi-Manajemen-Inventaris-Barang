@@ -50,6 +50,7 @@
 
 </div>
 
+
 {{-- GRID --}}
 <div class="row">
     @forelse($lokasi as $item)
@@ -75,7 +76,7 @@
                 @if(auth()->user()->role === 'admin')
                 <div class="d-flex justify-content-center gap-2 mt-3">
                     <a href="{{ route('lokasi.edit', $item->id) }}"
-                        class="btn btn-warning btn-sm">
+                        class="btn btn-outline-warning btn-sm px-3">
                         <i class="feather icon-edit"></i>Edit
                     </a>
 
@@ -87,11 +88,12 @@
                         @method('DELETE')
 
                         <button type="button"
-                            class="btn btn-danger btn-sm btn-delete"
+                            class="btn btn-outline-danger btn-sm px-3 btn-delete"
                             data-id="{{ $item->id }}"
                             data-name="{{ $item->nama_lokasi }}">
                             <i class="feather icon-trash"></i> Delete
                         </button>
+
                     </form>
                 </div>
                 @endif
@@ -111,11 +113,6 @@
     {{ $lokasi->links() }}
 </div>
 
-@if(session('error'))
-<div class="alert alert-danger d-flex align-items-center gap-2">
-    <i class="feather icon-alert-circle"></i>
-    {{ session('error') }}
-</div>
-@endif
+
 
 @endsection

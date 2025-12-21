@@ -57,6 +57,11 @@
 
 </div>
 
+@if (session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
 
 {{-- GRID --}}
 <div class="row">
@@ -79,7 +84,7 @@
                 @if(auth()->user()->role === 'admin')
                 <div class="d-flex justify-content-center gap-2 mt-3">
                     <a href="{{ route('kategori.edit', $item->id) }}"
-                        class="btn btn-warning btn-sm">
+                        class="btn btn-outline-warning btn-sm px-3">
                         <i class="feather icon-edit"></i>Edit
                     </a>
 
@@ -90,7 +95,7 @@
                         @method('DELETE')
 
                         <button type="button"
-                            class="btn btn-danger btn-sm btn-delete"
+                            class="btn btn-outline-danger btn-sm px-3 btn-delete"
                             data-id="{{ $item->id }}"
                             data-name="{{ $item->nama_kategori }}">
                             <i class="feather icon-trash"></i>Delete
@@ -111,10 +116,6 @@
 
 {{ $kategori->links() }}
 
-@if (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
+
 
 @endsection

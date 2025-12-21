@@ -17,6 +17,7 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,9 @@ Route::middleware(['auth.check', 'role:admin'])->group(function () {
 
     // User
     Route::resource('users', UserController::class);
+
+    //Task
+    Route::resource('tasks', TaskController::class)->except('show');
 });
 
 /*
@@ -87,6 +91,15 @@ Route::middleware(['auth.check', 'role:admin,petugas'])->group(function () {
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::resource('barang-keluar', BarangKeluarController::class);
 });
+
+/*
+|--------------------------------------------------------------------------
+| PETUGAS
+|--------------------------------------------------------------------------
+*/
+Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
+    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])
+        ->name('tasks.updateStatus');
 
 /*
 |--------------------------------------------------------------------------
