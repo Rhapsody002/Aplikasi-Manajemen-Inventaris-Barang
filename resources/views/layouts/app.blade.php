@@ -39,7 +39,8 @@
     <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+    
     {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

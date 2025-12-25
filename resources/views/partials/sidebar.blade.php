@@ -75,7 +75,7 @@
                     <a href="{{ route('supplier.index') }}"
                         class="nav-link {{ request()->routeIs('supplier.*') ? 'active' : '' }}">
                         <span class="pcoded-micon">
-                            <i class="feather icon-truck"></i>
+                            <i class="feather icon-briefcase"></i>
                         </span>
                         <span class="pcoded-mtext">Supplier</span>
                     </a>
@@ -112,7 +112,7 @@
                     <a href="{{ route('history.index') }}"
                         class="nav-link {{ request()->routeIs('history.*') ? 'active' : '' }}">
                         <span class="pcoded-micon">
-                            <i class="feather icon-archive"></i>
+                            <i class="feather icon-file-text"></i>
                         </span>
                         <span class="pcoded-mtext">History</span>
                     </a>
