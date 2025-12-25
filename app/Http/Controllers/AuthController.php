@@ -34,10 +34,16 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
+
+        $user->update([
+            'last_login_at' => now()
+        ]);
+
         session(['last_login' => now()]);
 
         return redirect('/dashboard');
     }
+
 
     public function logout(Request $request)
     {
