@@ -12,14 +12,31 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->text('deskripsi')->nullable();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('status', ['pending', 'proses', 'selesai'])->default('pending');
-            $table->date('deadline')->nullable();
+            $table->enum('tipe', ['masuk', 'keluar']);
+
+            $table->foreignId('barang_id')
+                ->constrained('barang')
+                ->cascadeOnDelete();
+
+            $table->integer('jumlah');
+
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('supplier_id')
+                ->nullable()
+                ->constrained('supplier')
+                ->nullOnDelete();
+
+            $table->enum('status', ['pending', 'selesai'])
+                ->default('pending');
+
             $table->timestamps();
         });
     }
- 
+
+
     public function down(): void
     {
         Schema::dropIfExists('tasks');

@@ -34,8 +34,8 @@
                     </a>
                 </li>
 
-                {{-- BARANG (DI ATAS KATEGORI) --}}
-                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'petugas')
+                {{-- BARANG --}}
+                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('barang.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -47,7 +47,7 @@
                 @endif
 
                 {{-- KATEGORI --}}
-                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'petugas')
+                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('kategori.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -59,7 +59,7 @@
                 @endif
 
                 {{-- LOKASI --}}
-                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'petugas')
+                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('lokasi.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -70,7 +70,56 @@
                 </li>
                 @endif
 
-                {{-- USER (ADMIN ONLY) --}}
+                {{-- SUPPLIER --}}
+                <li class="nav-item">
+                    <a href="{{ route('supplier.index') }}"
+                        class="nav-link {{ request()->routeIs('supplier.*') ? 'active' : '' }}">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-truck"></i>
+                        </span>
+                        <span class="pcoded-mtext">Supplier</span>
+                    </a>
+                </li>
+
+                {{-- TUGAS ADMIN --}}
+                @if(auth()->user()->role === 'admin')
+                <li class="nav-item">
+                    <a href="{{ route('tasks.index') }}"
+                        class="nav-link {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-clipboard"></i>
+                        </span>
+                        <span class="pcoded-mtext">Tugas</span>
+                    </a>
+                </li>
+                @endif
+
+                {{-- TUGAS SAYA --}}
+                @if(auth()->user()->role === 'petugas')
+                <li class="nav-item">
+                    <a href="{{ route('tasks.my') }}"
+                        class="nav-link {{ request()->routeIs('tasks.my') ? 'active' : '' }}">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-check-square"></i>
+                        </span>
+                        <span class="pcoded-mtext">Tugas Saya</span>
+                    </a>
+                </li>
+                @endif
+
+                {{-- HISTORY --}}
+                <li class="nav-item">
+                    <a href="{{ route('history.index') }}"
+                        class="nav-link {{ request()->routeIs('history.*') ? 'active' : '' }}">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-archive"></i>
+                        </span>
+                        <span class="pcoded-mtext">History</span>
+                    </a>
+                </li>
+
+
+                {{-- USER --}}
                 @if(auth()->user()->role === 'admin')
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link">
@@ -83,6 +132,7 @@
                 @endif
 
             </ul>
+
         </div>
     </div>
 </nav>

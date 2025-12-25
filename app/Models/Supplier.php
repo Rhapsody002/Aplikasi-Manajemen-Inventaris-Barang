@@ -9,8 +9,20 @@ class Supplier extends Model
     protected $table = 'supplier';
 
     protected $fillable = [
-        'name_supplier',
+        'nama_supplier',
+        'telepon',
         'alamat',
-        'telepon'
+        'logo_supplier'
     ];
+
+    /* RELASI */
+    public function barangMasuk()
+    {
+        return $this->hasMany(\App\Models\BarangMasuk::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(\App\Models\Task::class);
+    }
 }

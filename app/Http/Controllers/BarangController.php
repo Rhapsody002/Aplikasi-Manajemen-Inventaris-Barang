@@ -42,15 +42,16 @@ class BarangController extends Controller
             'nama_barang' => 'required',
             'kategori_id' => 'required|exists:kategori,id',
             'lokasi_id'   => 'nullable|exists:lokasi,id',
-            'stok'        => 'required|integer|min:0',
             'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'keterangan'  => 'nullable'
+            'keterangan'  => 'nullable',
         ]);
+
+        $data['stok'] = 0;
 
         if ($request->hasFile('foto_barang')) {
             $data['foto_barang'] = $request
                 ->file('foto_barang')
-                ->store('barang', 'public'); 
+                ->store('barang', 'public');
         }
 
         Barang::create($data);
@@ -82,7 +83,6 @@ class BarangController extends Controller
             'nama_barang' => 'required',
             'kategori_id' => 'required|exists:kategori,id',
             'lokasi_id'   => 'nullable|exists:lokasi,id',
-            'stok'        => 'required|integer|min:0',
             'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'keterangan'  => 'nullable'
         ]);

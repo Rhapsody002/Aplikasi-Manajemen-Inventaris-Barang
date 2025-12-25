@@ -18,12 +18,14 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
 */
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -50,11 +52,18 @@ Route::middleware('auth.check')->group(function () {
     | READ ONLY (SEMUA ROLE BOLEH LIHAT)
     |--------------------------------------------------------------------------
     */
+
+    // Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])
         ->name('kategori.index');
 
+    // Lokasi
     Route::get('/lokasi', [LokasiController::class, 'index'])
         ->name('lokasi.index');
+
+    // Supplier (READ ONLY)
+    Route::get('/supplier', [SupplierController::class, 'index'])
+        ->name('supplier.index');
 });
 
 /*
@@ -75,8 +84,25 @@ Route::middleware(['auth.check', 'role:admin'])->group(function () {
     // User
     Route::resource('users', UserController::class);
 
-    //Task
-    Route::resource('tasks', TaskController::class)->except('show');
+    // Task (ADMIN buat tugas)
+    Route::resource('tasks', TaskController::class)
+        ->except(['show', 'edit', 'update', 'destroy']);
+
+    // Supplier CRUD (ADMIN ONLY)
+    Route::get('/supplier/create', [SupplierController::class, 'create'])
+        ->name('supplier.create');
+
+    Route::post('/supplier', [SupplierController::class, 'store'])
+        ->name('supplier.store');
+
+    Route::get('/supplier/{supplier}/edit', [SupplierController::class, 'edit'])
+        ->name('supplier.edit');
+
+    Route::put('/supplier/{supplier}', [SupplierController::class, 'update'])
+        ->name('supplier.update');
+
+    Route::delete('/supplier/{supplier}', [SupplierController::class, 'destroy'])
+        ->name('supplier.destroy');
 });
 
 /*
@@ -87,7 +113,6 @@ Route::middleware(['auth.check', 'role:admin'])->group(function () {
 Route::middleware(['auth.check', 'role:admin,petugas'])->group(function () {
 
     Route::resource('barang', BarangController::class);
-    Route::resource('supplier', SupplierController::class);
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::resource('barang-keluar', BarangKeluarController::class);
 });
@@ -97,17 +122,24 @@ Route::middleware(['auth.check', 'role:admin,petugas'])->group(function () {
 | PETUGAS
 |--------------------------------------------------------------------------
 */
-Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
-    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])
-        ->name('tasks.updateStatus');
+Route::middleware(['auth.check', 'role:petugas'])->group(function () {
+
+    // Tugas saya
+    Route::get('/my-tasks', [TaskController::class, 'myTasks'])
+        ->name('tasks.my');
+
+    // Selesaikan tugas
+    Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])
+        ->name('tasks.complete');
+});
 
 /*
 |--------------------------------------------------------------------------
-| MANAJER
+| HISTORY (ADMIN, MANAJER, PETUGAS)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth.check', 'role:manajer'])->group(function () {
-    Route::get('/laporan', function () {
-        return 'Laporan Gudang';
-    });
+Route::middleware(['auth.check', 'role:admin,manajer,petugas'])->group(function () {
+
+    Route::get('/history', [HistoryController::class, 'index'])
+        ->name('history.index');
 });

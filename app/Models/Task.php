@@ -8,19 +8,21 @@ class Task extends Model
 {
     protected $fillable = [
         'judul',
-        'deskripsi',
+        'tipe',
+        'barang_id',
+        'jumlah',
         'user_id',
-        'status',
-        'deadline',
+        'supplier_id',
+        'status'
     ];
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class);
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(\App\Models\Task::class);
     }
 }
