@@ -35,7 +35,6 @@
                 </li>
 
                 {{-- BARANG --}}
-                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('barang.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -44,10 +43,8 @@
                         <span class="pcoded-mtext">Barang</span>
                     </a>
                 </li>
-                @endif
 
                 {{-- KATEGORI --}}
-                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('kategori.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -56,10 +53,8 @@
                         <span class="pcoded-mtext">Kategori</span>
                     </a>
                 </li>
-                @endif
 
                 {{-- LOKASI --}}
-                @if(in_array(auth()->user()->role, ['admin','petugas']))
                 <li class="nav-item">
                     <a href="{{ route('lokasi.index') }}" class="nav-link">
                         <span class="pcoded-micon">
@@ -68,7 +63,6 @@
                         <span class="pcoded-mtext">Lokasi</span>
                     </a>
                 </li>
-                @endif
 
                 {{-- SUPPLIER --}}
                 <li class="nav-item">
@@ -127,6 +121,19 @@
                             <i class="feather icon-users"></i>
                         </span>
                         <span class="pcoded-mtext">User</span>
+                    </a>
+                </li>
+                @endif
+
+
+                {{-- Profile --}}
+                @if(in_array(auth()->user()->role, ['manajer','petugas']))
+                <li class="nav-item">
+                    <a href="{{ route('profile.index') }}" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-user"></i>
+                        </span>
+                        <span class="pcoded-mtext">Profil Saya</span>
                     </a>
                 </li>
                 @endif

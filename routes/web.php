@@ -19,6 +19,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,10 @@ Route::middleware('auth.check')->group(function () {
     |--------------------------------------------------------------------------
     */
 
+    //Barang
+    Route::get('/barang', [BarangController::class, 'index'])
+        ->name('barang.index');
+
     // Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])
         ->name('kategori.index');
@@ -64,6 +69,10 @@ Route::middleware('auth.check')->group(function () {
     // Supplier (READ ONLY)
     Route::get('/supplier', [SupplierController::class, 'index'])
         ->name('supplier.index');
+
+    //History
+    Route::get('/history', [HistoryController::class, 'index'])
+        ->name('history.index');
 });
 
 /*
@@ -135,11 +144,16 @@ Route::middleware(['auth.check', 'role:petugas'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| HISTORY (ADMIN, MANAJER, PETUGAS)
+| PETUGAS
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth.check', 'role:admin,manajer,petugas'])->group(function () {
+Route::middleware(['auth.check', 'role:manajer,petugas'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])
+        ->name('profile.index');
 
-    Route::get('/history', [HistoryController::class, 'index'])
-        ->name('history.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 });

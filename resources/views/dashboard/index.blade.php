@@ -114,12 +114,22 @@
                         {{-- PETUGAS --}}
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="avatar-sm bg-primary text-white rounded-circle text-center">
-                                    {{ strtoupper(substr($task->user->name, 0, 1)) }}
-                                </div>
-                                {{ $task->user->name }}
+
+                                <img src="{{ $task->user->foto_profil
+            ? asset('storage/' . $task->user->foto_profil)
+            : asset('assets/images/user/default.png') }}"
+                                    class="rounded-circle"
+                                    width="32"
+                                    height="32"
+                                    style="object-fit: cover">
+
+                                <span class="fw-semibold">
+                                    {{ $task->user->name }}
+                                </span>
+
                             </div>
                         </td>
+
 
                         {{-- JUMLAH --}}
                         <td>
