@@ -1,5 +1,16 @@
 <div class="row">
 
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+
     <div class="col-md-6 mb-3">
         <label class="fw-semibold">Nama</label>
         <input type="text"
