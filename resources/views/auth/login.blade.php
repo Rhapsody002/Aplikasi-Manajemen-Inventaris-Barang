@@ -9,9 +9,9 @@
 
     {{-- Error login --}}
     @if(session('error'))
-        <div class="error">
-            {{ session('error') }}
-        </div>
+    <div class="error">
+        {{ session('error') }}
+    </div>
     @endif
 
     <form action="{{ route('login') }}" method="POST">
@@ -22,17 +22,16 @@
             name="username"
             placeholder="Username"
             value="{{ old('username') }}"
-            required
-        >
+            required>
 
         <input
             type="password"
             name="password"
             placeholder="Password"
-            required
-        >
+            required>
 
-        <button type="submit" class="btn">Log In</button>
+        <button type="submit" class="btn btn-primary">Log In</button>
+
     </form>
 </div>
 @endsection
