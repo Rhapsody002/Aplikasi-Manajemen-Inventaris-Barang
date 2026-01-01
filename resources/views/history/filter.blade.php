@@ -7,17 +7,17 @@
             <div class="col-md-3">
                 <label class="fw-semibold">Dari Tanggal</label>
                 <input type="date"
-                       name="from"
-                       value="{{ request('from') }}"
-                       class="form-control">
+                    name="from"
+                    value="{{ request('from') }}"
+                    class="form-control">
             </div>
 
             <div class="col-md-3">
                 <label class="fw-semibold">Sampai Tanggal</label>
                 <input type="date"
-                       name="to"
-                       value="{{ request('to') }}"
-                       class="form-control">
+                    name="to"
+                    value="{{ request('to') }}"
+                    class="form-control">
             </div>
 
             <div class="col-md-2">
@@ -39,25 +39,30 @@
                 <select name="user_id" class="form-control">
                     <option value="">Semua</option>
                     @foreach($petugas as $p)
-                        <option value="{{ $p->id }}"
-                            {{ request('user_id') == $p->id ? 'selected' : '' }}>
-                            {{ $p->name }}
-                        </option>
+                    <option value="{{ $p->id }}"
+                        {{ request('user_id') == $p->id ? 'selected' : '' }}>
+                        {{ $p->name }}
+                    </option>
                     @endforeach
                 </select>
             </div>
             @endif
 
-            <div class="col-md-1 d-flex gap-2">
-                <button class="btn btn-primary w-100">
-                    <i class="feather icon-filter"></i>
-                </button>
+            <div class="col-md-2">
+                <label class="form-label mb-1 invisible">Aksi</label>
 
-                <a href="{{ route('history.index') }}"
-                   class="btn btn-light w-100">
-                    <i class="feather icon-rotate-ccw"></i>
-                </a>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary w-100">
+                        <i class="feather icon-filter"></i>
+                    </button>
+
+                    <a href="{{ route('history.index') }}"
+                        class="btn btn-light w-100">
+                        <i class="feather icon-rotate-ccw"></i>
+                    </a>
+                </div>
             </div>
+
 
         </form>
 

@@ -21,11 +21,20 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 /*
 |--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
 */
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
