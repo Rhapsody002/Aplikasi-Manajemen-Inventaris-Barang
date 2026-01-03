@@ -93,8 +93,14 @@
 </div>
 
 {{-- PAGINATION --}}
-<div class="mt-4">
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <div class="text-muted small">
+        Menampilkan {{ $users->firstItem() }}–{{ $users->lastItem() }}
+        dari {{ $users->total() }} data
+    </div>
+
     {{ $users->links() }}
 </div>
+
 
 @endsection
