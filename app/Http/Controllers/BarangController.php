@@ -13,17 +13,16 @@ class BarangController extends Controller
 {
     public function index(Request $request)
     {
-        dd(base_path());
-        // $query = Barang::with(['kategori', 'lokasi']);
+        $query = Barang::with(['kategori', 'lokasi']);
 
-        // if ($request->filled('search')) {
-        //     $query->where('nama_barang', 'like', '%' . $request->search . '%');
-        // }
+        if ($request->filled('search')) {
+            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+        }
 
-        // $barang = $query->latest()->paginate(8);
-        // $barang->appends($request->only('search'));
+        $barang = $query->latest()->paginate(8);
+        $barang->appends($request->only('search'));
 
-        // return view('barang.index', compact('barang'));
+        return view('barang.index', compact('barang'));
     }
 
     public function create()
