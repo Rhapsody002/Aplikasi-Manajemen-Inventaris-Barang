@@ -109,10 +109,30 @@
     @endforelse
 </div>
 
-<div class="mt-4">
-    {{ $lokasi->links() }}
-</div>
+@if ($lokasi->hasPages())
+<div class="card mt-4">
+    <div class="card-body">
 
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            {{-- INFO --}}
+            <div class="text-muted small">
+                Menampilkan
+                <strong>{{ $lokasi->firstItem() }}</strong> –
+                <strong>{{ $lokasi->lastItem() }}</strong>
+                dari <strong>{{ $lokasi->total() }}</strong> lokasi
+            </div>
+
+            {{-- PAGINATION --}}
+            <div>
+                {{ $lokasi->links() }}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@endif
 
 
 @endsection

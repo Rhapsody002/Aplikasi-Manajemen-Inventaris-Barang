@@ -119,9 +119,30 @@
     @endforelse
 </div>
 
-{{-- PAGINATION --}}
-<div class="mt-4">
-    {{ $suppliers->links() }}
+@if ($suppliers->hasPages())
+<div class="card mt-4">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            {{-- INFO --}}
+            <div class="text-muted small">
+                Menampilkan
+                <strong>{{ $suppliers->firstItem() }}</strong> –
+                <strong>{{ $suppliers->lastItem() }}</strong>
+                dari <strong>{{ $suppliers->total() }}</strong> supplier
+            </div>
+
+            {{-- PAGINATION --}}
+            <div>
+                {{ $suppliers->links() }}
+            </div>
+
+        </div>
+
+    </div>
 </div>
+@endif
+
 
 @endsection
