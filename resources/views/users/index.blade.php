@@ -94,53 +94,29 @@
 
 @if ($users->hasPages())
 <div class="card mt-4">
-    <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div class="card-body">
 
-        {{-- INFO --}}
-        <span class="text-muted small">
-            Menampilkan
-            <strong>{{ $users->firstItem() }}</strong> –
-            <strong>{{ $users->lastItem() }}</strong>
-            dari <strong>{{ $users->total() }}</strong> user
-        </span>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-        {{-- PAGINATION --}}
-        <nav>
-            <ul class="pagination pagination-sm mb-0 shadow-sm">
+            {{-- INFO --}}
+            <div class="text-muted small">
+                Menampilkan
+                <strong>{{ $users->firstItem() }}</strong> –
+                <strong>{{ $users->lastItem() }}</strong>
+                dari <strong>{{ $users->total() }}</strong> user
+            </div>
 
-                {{-- PREV --}}
-                <li class="page-item {{ $users->onFirstPage() ? 'disabled' : '' }}">
-                    <a class="page-link"
-                        href="{{ $users->previousPageUrl() }}"
-                        aria-label="Previous">
-                        ‹
-                    </a>
-                </li>
+            {{-- PAGINATION --}}
+            <div>
+                {{ $users->links() }}
+            </div>
 
-                {{-- PAGE NUMBER --}}
-                @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
-                <li class="page-item {{ $users->currentPage() == $page ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $url }}">
-                        {{ $page }}
-                    </a>
-                </li>
-                @endforeach
-
-                {{-- NEXT --}}
-                <li class="page-item {{ $users->hasMorePages() ? '' : 'disabled' }}">
-                    <a class="page-link"
-                        href="{{ $users->nextPageUrl() }}"
-                        aria-label="Next">
-                        ›
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
+        </div>
 
     </div>
 </div>
 @endif
+
 
 
 

@@ -456,6 +456,7 @@
 .user-avatar-bg.manajer {
     box-shadow: inset 0 0 0 6px #3bf641;
 }
+
 /* .user-avatar-container {
     display: flex;
     justify-content: center;
@@ -586,14 +587,11 @@
     color: #0b3d0b;
 }
 
+.pagination {
+    margin-bottom: 0;
+}
+
 .pagination .page-link {
     border-radius: 8px;
     margin: 0 2px;
-    padding: 6px 12px;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-    color: #fff;
 }
