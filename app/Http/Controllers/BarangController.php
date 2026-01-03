@@ -22,7 +22,10 @@ class BarangController extends Controller
         $barang = $query->latest()->paginate(8);
         $barang->appends($request->only('search'));
 
-        return view('barang.index', compact('barang'));
+        return view()->file(
+            resource_path('views/barang/index.blade.php'),
+            compact('barang')
+        );
     }
 
     public function create()
