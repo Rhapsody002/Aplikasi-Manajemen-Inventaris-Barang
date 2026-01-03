@@ -69,15 +69,20 @@
                     </a>
 
                     <form action="{{ route('users.destroy', $user->id) }}"
-                        method="POST">
+                        method="POST"
+                        id="delete-user-{{ $user->id }}"
+                        class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit"
-                            class="btn btn-outline-danger btn-sm px-3"
-                            onclick="return confirm('Hapus user ini?')">
-                            <i class="feather icon-trash"></i>Delete
+
+                        <button type="button"
+                            class="btn btn-outline-danger btn-sm px-3 btn-delete-user"
+                            data-id="{{ $user->id }}"
+                            data-name="{{ $user->name }}">
+                            <i class="feather icon-trash"></i> Delete
                         </button>
                     </form>
+
                 </div>
 
             </div>
@@ -116,9 +121,5 @@
     </div>
 </div>
 @endif
-
-
-
-
 
 @endsection

@@ -40,7 +40,7 @@
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
     <script src="{{ asset('assets/js/feather.min.js') }}"></script>
-    
+
     {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -157,6 +157,35 @@
         feather.replace()
     </script>
 
+    {{-- DELETE CONFIRM USER --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.btn-delete-user').forEach(button => {
+                button.addEventListener('click', function() {
+
+                    const userId = this.dataset.id;
+                    const userName = this.dataset.name;
+
+                    Swal.fire({
+                        title: 'Hapus User?',
+                        text: `User "${userName}" akan dihapus permanen`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, hapus',
+                        cancelButtonText: 'Batal',
+                        confirmButtonColor: '#e3342f',
+                        cancelButtonColor: '#9ca3af',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById(`delete-user-${userId}`).submit();
+                        }
+                    });
+
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
