@@ -107,17 +107,9 @@
             </div>
 
             {{-- PAGINATION --}}
-            <div class="card mt-4">
-                <div class="card-body text-center">
-                    {{ $users->links() }}
-
-                    <div class="text-muted small mt-2">
-                        Menampilkan {{ $users->firstItem() }} – {{ $users->lastItem() }}
-                        dari {{ $users->total() }} user
-                    </div>
-                </div>
+            <div>
+                {{ $users->links() }}
             </div>
-
 
         </div>
 
