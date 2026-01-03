@@ -63,9 +63,6 @@ Route::middleware('auth.check')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    //Barang
-    Route::get('/barang', [BarangController::class, 'index'])
-        ->name('barang.index');
 
     // Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])
