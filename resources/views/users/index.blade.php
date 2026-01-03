@@ -93,14 +93,17 @@
 </div>
 
 {{-- PAGINATION --}}
-<div class="d-flex justify-content-between align-items-center mt-4">
-    <div class="text-muted small">
-        Menampilkan {{ $users->firstItem() }}–{{ $users->lastItem() }}
-        dari {{ $users->total() }} data
-    </div>
+<div class="card mt-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <span class="text-muted small">
+            Menampilkan <strong>{{ $users->count() }}</strong> dari
+            <strong>{{ $users->total() }}</strong> data
+        </span>
 
-    {{ $users->links() }}
+        {{ $users->links() }}
+    </div>
 </div>
+
 
 
 @endsection
