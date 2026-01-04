@@ -599,8 +599,17 @@
 .pcoded-header {
     background: #ffffff;
     border-bottom: 1px solid #eaeaea;
-    backdrop-filter: blur(6px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 264px;
+    /* sesuai lebar sidebar */
+    height: 64px;
     z-index: 1020;
+}
+
+.pcoded-main-container {
+    margin-top: 64px;
 }
 
 /* ===========================
@@ -645,12 +654,11 @@
 
 .badge-dot {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 8px;
-    height: 8px;
+    top: 6px;
+    right: 2px;
+    font-size: 11px;
+    padding: 3px 6px;
     border-radius: 50%;
-    background: #dc3545;
 }
 
 /* NOTIF DROPDOWN */
@@ -658,7 +666,7 @@
     width: 260px;
     padding: 0;
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
     border: none;
 }
 
