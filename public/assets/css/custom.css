@@ -667,15 +667,14 @@
 /* BADGE (SATU VERSI SAJA) */
 .badge-dot {
     position: absolute;
-    top: -4px;
-    right: -6px;
-    background: #ef4444;
-    color: #fff;
+    top: 4px;
+    right: -2px;
     font-size: 10px;
-    padding: 3px 6px;
-    border-radius: 999px;
+    padding: 4px 6px;
+    border-radius: 50%;
     line-height: 1;
 }
+
 
 /* DROPDOWN */
 .notification-dropdown {
