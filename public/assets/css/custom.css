@@ -595,3 +595,19 @@
     border-radius: 8px;
     margin: 0 2px;
 }
+
+.pcoded-header {
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    backdrop-filter: blur(6px);
+    z-index: 1020;
+}
+
+.profile-dropdown {
+    min-width: 260px;
+}
+
+.profile-box {
+    background: #f8f9fa;
+    border-radius: 6px;
+}
