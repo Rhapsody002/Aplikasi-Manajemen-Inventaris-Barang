@@ -1,4 +1,4 @@
-<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
+<header class="navbar pcoded-header navbar-expand-lg headerpos-fixed">
 
     {{-- LEFT --}}
     <div class="m-header d-flex align-items-center gap-3">
@@ -6,7 +6,6 @@
             <span></span>
         </a>
 
-        {{-- PAGE TITLE --}}
         <div class="header-title">
             <h6 class="mb-0 fw-bold">
                 @yield('title', 'Dashboard')
@@ -21,7 +20,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto align-items-center gap-3">
 
-            {{-- NOTIFICATION --}}
+            {{-- 🔔 NOTIFICATION --}}
             <li class="nav-item dropdown">
                 <a class="nav-link position-relative" href="#" data-bs-toggle="dropdown">
                     <i class="feather icon-bell fs-5"></i>
@@ -58,9 +57,12 @@
                 </div>
             </li>
 
-            {{-- USER --}}
+            {{-- 👤 USER --}}
             <li class="nav-item dropdown">
-                <a class="nav-link d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
+                <a class="nav-link d-flex align-items-center gap-2"
+                    href="#"
+                    data-bs-toggle="dropdown">
+
                     <img src="{{ auth()->user()->foto_profil
                         ? asset('storage/'.auth()->user()->foto_profil)
                         : asset('assets/images/user/default.png') }}"
@@ -74,7 +76,7 @@
                     </span>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-end">
+                <div class="dropdown-menu dropdown-menu-end profile-dropdown">
                     <a href="{{ route('profile.index') }}" class="dropdown-item">
                         <i class="feather icon-user me-2"></i> Profile
                     </a>
