@@ -21,13 +21,11 @@
         {{-- SIDEBAR --}}
         @include('partials.sidebar')
 
-        {{-- MAIN --}}
+        {{-- NAVBAR GLOBAL --}}
+        @include('partials.navbar')
+
+        {{-- MAIN CONTENT --}}
         <div class="pcoded-main-container">
-
-            {{-- ✅ NAVBAR WAJIB DI SINI --}}
-            @include('partials.navbar')
-
-            {{-- CONTENT --}}
             <div class="pcoded-content">
                 <div class="page-wrapper">
                     @yield('content')
