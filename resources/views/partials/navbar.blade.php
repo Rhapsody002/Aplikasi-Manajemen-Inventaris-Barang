@@ -1,100 +1,71 @@
-<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
+<header class="navbar navbar-expand-lg bg-white shadow-sm px-4">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    {{-- LEFT : PAGE TITLE --}}
-    <div class="d-flex align-items-center">
-        <h6 class="mb-0 fw-bold">
-            @yield('title', 'Dashboard')
-        </h6>
-    </div>
+        {{-- LEFT --}}
+        <div class="d-flex align-items-center gap-3">
+            <h5 class="mb-0 fw-bold">@yield('title', 'Dashboard')</h5>
+        </div>
 
-    {{-- RIGHT --}}
-    <ul class="navbar-nav ml-auto d-flex align-items-center">
+        {{-- RIGHT --}}
+        <div class="d-flex align-items-center gap-4">
 
-        {{-- DATE --}}
-        <li class="nav-item mr-3">
-            <span class="badge badge-light border px-3 py-2">
-                <i class="feather icon-calendar mr-1"></i>
-                {{ now()->format('d M Y') }}
-            </span>
-        </li>
-
-        {{-- NOTIFICATION --}}
-        <li class="nav-item dropdown mr-3">
-            <a class="nav-link position-relative" href="#">
-                <i class="feather icon-bell"></i>
-                <span class="badge badge-danger position-absolute"
-                    style="top:-4px; right:-6px;">
-                    2
+            {{-- 🔔 NOTIF TUGAS --}}
+            @if($notifTasks > 0)
+            <a href="{{ auth()->user()->role === 'petugas'
+                        ? route('tasks.my')
+                        : route('tasks.index') }}"
+                class="position-relative text-dark">
+                <i class="feather icon-bell fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $notifTasks }}
                 </span>
             </a>
-        </li>
+            @endif
 
-        {{-- USER --}}
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center"
-                href="#"
-                data-toggle="dropdown">
-
-                <img src="{{ auth()->user()->foto_profil
-                    ? asset('storage/'.auth()->user()->foto_profil)
-                    : asset('assets/images/user/default.png') }}"
-                    class="rounded-circle"
-                    width="36"
-                    height="36"
-                    style="object-fit:cover">
-
-                <span class="ml-2 fw-semibold d-none d-md-inline">
-                    {{ auth()->user()->name }}
+            {{-- ⚠️ STOK KRITIS --}}
+            @if(($stokKritis ?? 0) > 0 && auth()->user()->role !== 'petugas')
+            <a href="{{ route('barang.index') }}"
+                class="position-relative text-dark">
+                <i class="feather icon-alert-circle fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                    {{ $stokKritis }}
                 </span>
             </a>
+            @endif
 
-            <div class="dropdown-menu dropdown-menu-right shadow">
-
-                {{-- PROFILE --}}
-                <div class="text-center p-3">
+            {{-- USER --}}
+            <div class="dropdown">
+                <a class="d-flex align-items-center gap-2 dropdown-toggle"
+                    href="#"
+                    data-bs-toggle="dropdown">
                     <img src="{{ auth()->user()->foto_profil
                         ? asset('storage/'.auth()->user()->foto_profil)
                         : asset('assets/images/user/default.png') }}"
-                        class="rounded-circle mb-2"
-                        width="72"
-                        height="72"
-                        style="object-fit:cover">
+                        class="rounded-circle"
+                        width="36"
+                        height="36">
+                    <span class="fw-semibold">{{ auth()->user()->name }}</span>
+                </a>
 
-                    <h6 class="mb-0 fw-bold">
-                        {{ auth()->user()->name }}
-                    </h6>
-                    <small class="text-muted text-capitalize">
-                        {{ auth()->user()->role }}
-                    </small>
-                </div>
+                <div class="dropdown-menu dropdown-menu-end p-3">
+                    <div class="text-center mb-2">
+                        <strong>{{ auth()->user()->name }}</strong><br>
+                        <small class="text-muted text-capitalize">
+                            {{ auth()->user()->role }}
+                        </small>
+                    </div>
 
-                <div class="dropdown-divider"></div>
+                    <hr>
 
-                {{-- LOGIN INFO --}}
-                <div class="px-3 small text-muted">
-                    Login terakhir<br>
-                    <strong>
-                        {{ auth()->user()->last_login_at
-                            ? auth()->user()->last_login_at->format('d M Y, H:i')
-                            : '-' }}
-                    </strong>
-                </div>
-
-                <div class="dropdown-divider"></div>
-
-                {{-- LOGOUT --}}
-                <div class="p-3">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="btn btn-danger btn-block">
-                            <i class="feather icon-log-out mr-1"></i>
-                            Logout
+                        <button class="btn btn-danger w-100">
+                            <i class="feather icon-log-out"></i> Logout
                         </button>
                     </form>
                 </div>
-
             </div>
-        </li>
 
-    </ul>
+        </div>
+    </div>
 </header>
