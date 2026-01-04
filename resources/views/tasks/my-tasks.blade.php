@@ -67,6 +67,17 @@
                         </span>
                     </div>
                 </div>
+                
+                {{-- LOKASI PELETAKAN --}}
+                @if($task->lokasi)
+                <div class="mb-3">
+                    <small class="text-muted">Lokasi Peletakan</small>
+                    <div class="fw-semibold">
+                        <i class="feather icon-map-pin text-primary me-1"></i>
+                        {{ $task->lokasi->nama_lokasi }}
+                    </div>
+                </div>
+                @endif
 
                 {{-- STATUS --}}
                 <div class="mb-3">
@@ -77,8 +88,8 @@
 
                 {{-- ACTION --}}
                 <form action="{{ route('tasks.complete', $task->id) }}"
-                      method="POST"
-                      onsubmit="return confirm('Selesaikan tugas ini?')">
+                    method="POST"
+                    onsubmit="return confirm('Selesaikan tugas ini?')">
                     @csrf
 
                     <button class="btn btn-success w-100">

@@ -68,6 +68,29 @@
     </small>
 </div>
 
+{{-- LOKASI PELETAKAN --}}
+<div class="form-group mb-3" id="lokasi-wrapper">
+    <label class="fw-semibold">
+        Lokasi Peletakan
+        <small class="text-muted">(Tujuan barang)</small>
+    </label>
+
+    <select name="lokasi_id" class="form-control">
+        <option value="">-- Pilih Lokasi --</option>
+        @foreach($lokasi as $l)
+        <option value="{{ $l->id }}"
+            {{ old('lokasi_id') == $l->id ? 'selected' : '' }}>
+            {{ $l->nama_lokasi }}
+        </option>
+        @endforeach
+    </select>
+
+    <small class="text-muted">
+        Wajib diisi jika tipe = Barang Masuk
+    </small>
+</div>
+
+
 {{-- PETUGAS --}}
 <div class="form-group mb-4">
     <label class="fw-semibold">Petugas</label>
@@ -82,20 +105,26 @@
     </select>
 </div>
 
-{{-- SCRIPT SHOW / HIDE SUPPLIER --}}
+{{-- SCRIPT SHOW / HIDE SUPPLIER&Lokasi --}}
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const tipe = document.getElementById('tipe');
         const supplierWrapper = document.getElementById('supplier-wrapper');
+        const lokasiWrapper = document.getElementById('lokasi-wrapper');
 
-        function toggleSupplier() {
-            supplierWrapper.style.display =
-                tipe.value === 'masuk' ? 'block' : 'none';
+        function toggleFields() {
+            if (tipe.value === 'masuk') {
+                supplierWrapper.style.display = 'block';
+                lokasiWrapper.style.display = 'block';
+            } else {
+                supplierWrapper.style.display = 'none';
+                lokasiWrapper.style.display = 'none';
+            }
         }
 
-        toggleSupplier();
-        tipe.addEventListener('change', toggleSupplier);
+        toggleFields();
+        tipe.addEventListener('change', toggleFields);
     });
 </script>
 @endpush

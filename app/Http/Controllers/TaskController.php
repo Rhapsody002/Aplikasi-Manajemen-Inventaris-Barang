@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use App\Models\Supplier;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,7 @@ class TaskController extends Controller
             'barang'  => Barang::all(),
             'petugas' => User::where('role', 'petugas')->get(),
             'supplier' => Supplier::all(),
+            'lokasi'    => Lokasi::all(),
         ]);
     }
 
@@ -44,6 +46,7 @@ class TaskController extends Controller
             'jumlah'    => 'required|integer|min:1',
             'user_id'   => 'required|exists:users,id',
             'supplier_id' => 'nullable|exists:supplier,id',
+            'lokasi_id'  => 'nullable|exists:lokasi,id',
         ]);
 
         // validasi khusus barang masuk
@@ -73,7 +76,7 @@ class TaskController extends Controller
     // PETUGAS: tugas saya
     public function myTasks()
     {
-        $tasks = Task::with('barang')
+        $tasks = Task::with('barang','lokasi')
             ->where('user_id', Auth::id())
             ->where('status', 'pending')
             ->latest()

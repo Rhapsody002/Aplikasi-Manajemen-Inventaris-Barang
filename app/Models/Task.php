@@ -25,4 +25,10 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class);
+    }
+
 }
