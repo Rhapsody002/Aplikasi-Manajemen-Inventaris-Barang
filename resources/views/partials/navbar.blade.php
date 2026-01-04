@@ -13,7 +13,7 @@
 
             {{-- 🔔 NOTIFICATION --}}
             <li class="nav-item dropdown mr-3">
-                <a class="nav-link position-relative"
+                <a class="nav-link position-relative notif-trigger"
                     href="#"
                     data-toggle="dropdown"
                     aria-haspopup="true"
@@ -22,7 +22,7 @@
                     <i class="feather icon-bell"></i>
 
                     @if(($notifTasks ?? 0) + ($stokKritis ?? 0) > 0)
-                    <span class="badge badge-danger badge-dot">
+                    <span class="badge-dot">
                         {{ ($notifTasks ?? 0) + ($stokKritis ?? 0) }}
                     </span>
                     @endif
@@ -30,36 +30,68 @@
 
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
 
-                    <h6 class="dropdown-header">Notifikasi</h6>
+                    <div class="notif-header">
+                        Notifikasi
+                    </div>
 
+                    {{-- TASK --}}
                     @if(($notifTasks ?? 0) > 0)
-                    <a class="dropdown-item"
+                    <a class="notif-item"
                         href="{{ auth()->user()->role === 'petugas'
-                            ? route('tasks.my')
-                            : route('tasks.index') }}">
-                        <i class="feather icon-clipboard text-warning mr-2"></i>
-                        {{ $notifTasks }} tugas pending
+                                ? route('tasks.my')
+                                : route('tasks.index') }}">
+
+                        <div class="notif-icon warning">
+                            <i class="feather icon-clipboard"></i>
+                        </div>
+
+                        <div class="notif-content">
+                            <div class="notif-title">Tugas Pending</div>
+                            <div class="notif-desc">
+                                {{ $notifTasks }} tugas menunggu
+                            </div>
+                        </div>
+
+                        <span class="notif-badge warning">
+                            {{ $notifTasks }}
+                        </span>
                     </a>
                     @endif
 
+                    {{-- STOK KRITIS --}}
                     @if(($stokKritis ?? 0) > 0)
-                    <a class="dropdown-item" href="{{ route('barang.index') }}">
-                        <i class="feather icon-alert-circle text-danger mr-2"></i>
-                        {{ $stokKritis }} stok kritis
+                    <a class="notif-item" href="{{ route('barang.index') }}">
+                        <div class="notif-icon danger">
+                            <i class="feather icon-alert-circle"></i>
+                        </div>
+
+                        <div class="notif-content">
+                            <div class="notif-title">Stok Kritis</div>
+                            <div class="notif-desc">
+                                {{ $stokKritis }} barang hampir habis
+                            </div>
+                        </div>
+
+                        <span class="notif-badge danger">
+                            {{ $stokKritis }}
+                        </span>
                     </a>
                     @endif
 
+                    {{-- EMPTY --}}
                     @if(($notifTasks ?? 0) + ($stokKritis ?? 0) === 0)
-                    <div class="dropdown-item text-muted small text-center">
-                        Tidak ada notifikasi
+                    <div class="notif-empty">
+                        <i class="feather icon-check-circle"></i>
+                        <p>Tidak ada notifikasi</p>
                     </div>
                     @endif
+
                 </div>
             </li>
 
             {{-- 👤 USER --}}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center"
+                <a class="nav-link dropdown-toggle d-flex align-items-center profile-trigger"
                     href="#"
                     data-toggle="dropdown">
 
@@ -77,17 +109,17 @@
 
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown">
 
-                    {{-- PROFILE TOP --}}
-                    <div class="profile-box text-center">
+                    <div class="profile-box">
                         <div class="avatar-wrapper">
                             <img src="{{ auth()->user()->foto_profil
                                 ? asset('storage/'.auth()->user()->foto_profil)
                                 : asset('assets/images/user/default.png') }}">
                         </div>
 
-                        <div class="fw-bold mt-2">
+                        <h6 class="mt-2 mb-0 fw-bold">
                             {{ auth()->user()->name }}
-                        </div>
+                        </h6>
+
                         <small class="text-muted text-capitalize">
                             {{ auth()->user()->role }}
                         </small>
@@ -95,9 +127,8 @@
 
                     <div class="profile-divider"></div>
 
-                    {{-- LOGIN INFO --}}
                     <div class="profile-meta">
-                        <div class="meta-label">Login Terakhir</div>
+                        <span class="meta-label">Login Terakhir</span>
                         <div class="meta-value">
                             {{ auth()->user()->last_login_at
                                 ? auth()->user()->last_login_at->format('d M Y, H:i')
@@ -107,14 +138,13 @@
 
                     <div class="profile-divider"></div>
 
-                    {{-- LOGOUT --}}
                     <form action="{{ route('logout') }}" method="POST" class="p-3">
                         @csrf
                         <button class="btn btn-danger w-100">
-                            <i class="feather icon-log-out mr-2"></i> Logout
+                            <i class="feather icon-log-out mr-2"></i>
+                            Logout
                         </button>
                     </form>
-
                 </div>
             </li>
 
