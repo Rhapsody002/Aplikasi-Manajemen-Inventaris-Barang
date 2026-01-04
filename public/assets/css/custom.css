@@ -603,11 +603,48 @@
     z-index: 1020;
 }
 
+/* HEADER */
+.pcoded-header {
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    backdrop-filter: blur(6px);
+    z-index: 1020;
+}
+
+/* NAV ICON */
+.pcoded-header .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* NOTIFICATION BADGE */
+.badge-dot {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 10px;
+    padding: 4px 6px;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+/* USER DROPDOWN */
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    border: none;
+}
+
+/* PROFILE DROPDOWN */
 .profile-dropdown {
     min-width: 260px;
 }
 
 .profile-box {
     background: #f8f9fa;
-    border-radius: 6px;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
 }
