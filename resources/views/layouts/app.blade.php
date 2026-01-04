@@ -18,14 +18,16 @@
 
     <div class="pcoded-wrapper">
 
-        {{-- Sidebar --}}
+        {{-- SIDEBAR --}}
         @include('partials.sidebar')
 
-        {{-- Navbar --}}
-        @include('partials.navbar')
-
-        {{-- Main Content --}}
+        {{-- MAIN --}}
         <div class="pcoded-main-container">
+
+            {{-- ✅ NAVBAR WAJIB DI SINI --}}
+            @include('partials.navbar')
+
+            {{-- CONTENT --}}
             <div class="pcoded-content">
                 <div class="page-wrapper">
                     @yield('content')

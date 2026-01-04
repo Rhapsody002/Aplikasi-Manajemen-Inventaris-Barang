@@ -1,42 +1,109 @@
-<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
-    <div class="m-header d-flex align-items-center gap-2">
+<header class="navbar pcoded-header navbar-expand-lg headerpos-fixed">
 
-        <!-- TOGGLE SIDEBAR -->
+    {{-- LEFT --}}
+    <div class="d-flex align-items-center gap-3">
+
+        {{-- TOGGLE SIDEBAR --}}
         <a class="mobile-menu" id="mobile-collapse" href="#!">
             <span></span>
         </a>
 
-        <!-- LOGO -->
-        <div class="logo-box-header">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Mega Manunggal">
-        </div>
-
-        <span class="fw-bold text-dark">
-            Mega Manunggal
+        <span class="fw-bold fs-5">
+            @yield('page-title', 'Dashboard')
         </span>
     </div>
 
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                    {{ auth()->user()->name }}
-                </a>
+    {{-- RIGHT --}}
+    <ul class="navbar-nav ms-auto align-items-center gap-3">
 
-                <div class="dropdown-menu dropdown-menu-right">
-                    <span class="dropdown-item-text">
-                        Role: {{ auth()->user()->role }}
-                    </span>
-                    <div class="dropdown-divider"></div>
+        {{-- 🔔 NOTIFICATION --}}
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                <i class="feather icon-bell fs-5"></i>
 
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button class="dropdown-item text-danger">
-                            Logout
-                        </button>
-                    </form>
+                @if(($notifTasks ?? 0) + ($stokKritis ?? 0) > 0)
+                <span class="badge bg-danger badge-dot">
+                    {{ ($notifTasks ?? 0) + ($stokKritis ?? 0) }}
+                </span>
+                @endif
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end p-0" style="width:280px">
+
+                <div class="p-3 border-bottom fw-semibold">
+                    Notifikasi
                 </div>
-            </li>
-        </ul>
-    </div>
+
+                {{-- TASK --}}
+                @if(($notifTasks ?? 0) > 0)
+                <a class="dropdown-item d-flex justify-content-between"
+                    href="{{ route('tasks.index') }}">
+                    Tugas Pending
+                    <span class="badge bg-warning">{{ $notifTasks }}</span>
+                </a>
+                @endif
+
+                {{-- STOK --}}
+                @if(($stokKritis ?? 0) > 0)
+                <a class="dropdown-item d-flex justify-content-between"
+                    href="{{ route('barang.index') }}">
+                    Stok Kritis
+                    <span class="badge bg-danger">{{ $stokKritis }}</span>
+                </a>
+                @endif
+
+                @if(($notifTasks ?? 0) + ($stokKritis ?? 0) === 0)
+                <div class="dropdown-item text-muted text-center py-3">
+                    Tidak ada notifikasi
+                </div>
+                @endif
+            </div>
+        </li>
+
+        {{-- 👤 USER --}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                href="#"
+                data-bs-toggle="dropdown">
+
+                <img src="{{ auth()->user()->foto_profil
+                    ? asset('storage/'.auth()->user()->foto_profil)
+                    : asset('assets/images/user/default.png') }}"
+                    class="rounded-circle"
+                    width="36"
+                    height="36"
+                    style="object-fit:cover">
+
+                <span class="fw-semibold">
+                    {{ auth()->user()->name }}
+                </span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end profile-dropdown">
+
+                <div class="profile-box">
+                    <img src="{{ auth()->user()->foto_profil
+                        ? asset('storage/'.auth()->user()->foto_profil)
+                        : asset('assets/images/user/default.png') }}"
+                        class="rounded-circle mb-2"
+                        width="60" height="60">
+
+                    <div class="fw-bold">{{ auth()->user()->name }}</div>
+                    <small class="text-muted text-capitalize">
+                        {{ auth()->user()->role }}
+                    </small>
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <form action="{{ route('logout') }}" method="POST" class="px-3 pb-2">
+                    @csrf
+                    <button class="btn btn-danger w-100">
+                        <i class="feather icon-log-out"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </li>
+
+    </ul>
 </header>
