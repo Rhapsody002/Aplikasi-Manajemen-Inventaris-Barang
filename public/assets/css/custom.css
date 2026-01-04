@@ -612,21 +612,7 @@
     margin-top: 64px;
 }
 
-/* ===========================
-   HEADER
-=========================== */
-.app-header {
-    height: 60px;
-    background: #ffffff;
-    border-bottom: 1px solid #eaeaea;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 24px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+
 
 /* LEFT TITLE */
 .page-title {
@@ -698,4 +684,116 @@
     height: 34px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+/* ===========================
+   FINAL HEADER (FIXED & CLEAN)
+=========================== */
+
+.pcoded-header {
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 264px; /* HARUS sama dengan sidebar */
+    height: 64px;
+    z-index: 1020;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+/* OFFSET CONTENT */
+.pcoded-main-container {
+    margin-top: 64px;
+}
+
+/* HEADER TITLE */
+.header-title h6 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.header-title small {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* RIGHT AREA */
+.pcoded-header .navbar-nav {
+    align-items: center;
+    gap: 18px;
+}
+
+/* ===========================
+   NOTIFICATION
+=========================== */
+
+.header-icon {
+    position: relative;
+    font-size: 20px;
+    color: #374151;
+    cursor: pointer;
+}
+
+/* BADGE (SATU VERSI SAJA) */
+.badge-dot {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 999px;
+    line-height: 1;
+}
+
+/* DROPDOWN */
+.notification-dropdown {
+    width: 280px;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 18px 45px rgba(0,0,0,.15);
+    overflow: hidden;
+}
+
+.notification-dropdown .dropdown-header {
+    font-weight: 700;
+    background: #f8fafc;
+    padding: 12px 16px;
+}
+
+.notification-dropdown .dropdown-item {
+    padding: 12px 16px;
+    font-size: 14px;
+}
+
+/* ===========================
+   USER
+=========================== */
+
+.user-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.user-trigger img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* PROFILE DROPDOWN */
+.profile-dropdown {
+    width: 260px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 18px 45px rgba(0,0,0,.15);
 }
