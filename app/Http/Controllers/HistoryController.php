@@ -11,7 +11,7 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Task::with(['barang', 'user'])->latest();
+        $query = Task::with(['barang', 'user', 'lokasi'])->latest();
 
         // PETUGAS hanya lihat tugas sendiri
         if (Auth::user()->role === 'petugas') {
@@ -23,7 +23,7 @@ class HistoryController extends Controller
             $query->where('tipe', $request->tipe);
         }
 
-        // FILTER: PETUGAS (ADMIN & MANAJER SAJA)
+        // FILTER: PETUGAS (ADMIN & MANAJER)
         if (
             $request->filled('user_id') &&
             in_array(Auth::user()->role, ['admin', 'manajer'])
@@ -42,7 +42,6 @@ class HistoryController extends Controller
 
         $tasks = $query->paginate(10)->withQueryString();
 
-        // data petugas untuk dropdown
         $petugas = User::where('role', 'petugas')->get();
 
         return view('history.index', compact('tasks', 'petugas'));

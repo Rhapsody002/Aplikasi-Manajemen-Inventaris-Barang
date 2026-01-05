@@ -30,6 +30,7 @@
                     <th>Tipe</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
+                    <th>Lokasi</th>
 
                     @if(auth()->user()->role !== 'petugas')
                     <th>Petugas</th>
@@ -65,6 +66,10 @@
                         <span class="badge bg-info text-white">
                             {{ $task->jumlah }}
                         </span>
+                    </td>
+
+                    <td>
+                        {{ $task->lokasi?->nama_lokasi ?? '-' }}
                     </td>
 
                     @if(auth()->user()->role !== 'petugas')
