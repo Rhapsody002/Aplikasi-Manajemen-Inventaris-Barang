@@ -13,6 +13,7 @@ class Task extends Model
         'jumlah',
         'user_id',
         'supplier_id',
+        'lokasi_id',
         'status'
     ];
 

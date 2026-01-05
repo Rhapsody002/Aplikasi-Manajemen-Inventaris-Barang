@@ -20,7 +20,7 @@
     <div></div>
 
     <a href="{{ route('tasks.create') }}"
-       class="btn btn-success btn-add-category d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill">
+        class="btn btn-success btn-add-category d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill">
         <i class="feather icon-plus"></i>
         Tambah Tugas
     </a>
@@ -38,6 +38,7 @@
                     <th>Tipe</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
+                    <th>Lokasi</th>
                     <th>Petugas</th>
                     <th>Status</th>
                     <th>Tanggal</th>
@@ -66,7 +67,15 @@
                         </span>
                     </td>
 
-                    <td>{{ $task->user->name }}</td>
+                    <td>
+                        {{ $task->lokasi
+            ? $task->lokasi->nama_lokasi
+            : '-' }}
+                    </td>
+
+                    <td>
+                        {{ $task->user->name }}
+                    </td>
 
                     <td>
                         <span class="badge

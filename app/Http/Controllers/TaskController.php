@@ -18,7 +18,7 @@ class TaskController extends Controller
     //Admin
     public function index()
     {
-        $tasks = Task::with(['barang', 'user'])
+        $tasks = Task::with(['barang', 'user','lokasi'])
             ->latest()
             ->paginate(10);
 
