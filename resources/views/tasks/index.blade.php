@@ -104,8 +104,9 @@
                         </td>
 
                         {{-- AKSI --}}
-                        <td>
-                            @if($task->status === 'menunggu_acc')
+                        <td class="text-center" style="white-space: nowrap;">
+
+                            @if(auth()->user()->role === 'admin' && $task->status === 'menunggu_acc')
 
                             {{-- ACC --}}
                             <form action="{{ route('tasks.approve', $task->id) }}"
@@ -134,7 +135,9 @@
                             @else
                             <span class="text-muted">-</span>
                             @endif
+
                         </td>
+
 
                         <td>
                             <small class="text-muted">
