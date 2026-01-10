@@ -99,7 +99,7 @@ class BarangController extends Controller
         $barang->update($data);
 
         return redirect()->route('barang.index')
-            ->with('success', 'Barang berhasil diperbarui');
+            ->with('info', 'Barang berhasil diperbarui');
     }
 
     public function destroy(Barang $barang)
@@ -111,6 +111,6 @@ class BarangController extends Controller
         $barang->delete();
 
         return redirect()->route('barang.index')
-            ->with('success', 'Barang berhasil dihapus');
+            ->with('error', 'Barang berhasil dihapus');
     }
 }

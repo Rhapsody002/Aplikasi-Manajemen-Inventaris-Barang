@@ -75,7 +75,7 @@ class KategoriController extends Controller
         $kategori->update($data);
 
         return redirect()->route('kategori.index')
-            ->with('success', 'Kategori berhasil diperbarui');
+            ->with('info', 'Kategori berhasil diperbarui');
     }
 
     public function destroy(Kategori $kategori)
@@ -95,6 +95,6 @@ class KategoriController extends Controller
         $kategori->delete();
 
         return redirect()->route('kategori.index')
-            ->with('success', 'Kategori berhasil dihapus');
+            ->with('error', 'Kategori berhasil dihapus');
     }
 }

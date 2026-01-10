@@ -21,20 +21,15 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 /*
 |--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
-
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -57,28 +52,37 @@ Route::middleware('auth.check')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    /*
-    |--------------------------------------------------------------------------
-    | READ ONLY (SEMUA ROLE BOLEH LIHAT)
-    |--------------------------------------------------------------------------
-    */
-
-
-    // Kategori
-    Route::get('/kategori', [KategoriController::class, 'index'])
-        ->name('kategori.index');
-
-    // Lokasi
-    Route::get('/lokasi', [LokasiController::class, 'index'])
-        ->name('lokasi.index');
-
-    // Supplier (READ ONLY)
-    Route::get('/supplier', [SupplierController::class, 'index'])
-        ->name('supplier.index');
-
-    //History
+    // HISTORY → SEMUA ROLE
     Route::get('/history', [HistoryController::class, 'index'])
         ->name('history.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | READ ONLY (ADMIN & MANAJER)
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('role:admin,manajer')->group(function () {
+
+        // Barang (lihat saja)
+        Route::get('/barang', [BarangController::class, 'index'])
+            ->name('barang.index');
+
+        // Kategori
+        Route::get('/kategori', [KategoriController::class, 'index'])
+            ->name('kategori.index');
+
+        // Lokasi
+        Route::get('/lokasi', [LokasiController::class, 'index'])
+            ->name('lokasi.index');
+
+        // Supplier
+        Route::get('/supplier', [SupplierController::class, 'index'])
+            ->name('supplier.index');
+
+        // Tasks (lihat semua)
+        Route::get('/tasks', [TaskController::class, 'index'])
+            ->name('tasks.index');
+    });
 });
 
 /*
@@ -88,72 +92,60 @@ Route::middleware('auth.check')->group(function () {
 */
 Route::middleware(['auth.check', 'role:admin'])->group(function () {
 
+    // Barang FULL CRUD
+    Route::resource('barang', BarangController::class)->except(['index', 'show']);
+
     // Kategori
-    Route::resource('kategori', KategoriController::class)
-        ->except(['index', 'show']);
+    Route::resource('kategori', KategoriController::class)->except(['index', 'show']);
 
     // Lokasi
-    Route::resource('lokasi', LokasiController::class)
-        ->except(['index', 'show']);
+    Route::resource('lokasi', LokasiController::class)->except(['index', 'show']);
+
+    // Supplier FULL CRUD
+    Route::resource('supplier', SupplierController::class)->except(['index', 'show']);
 
     // User
     Route::resource('users', UserController::class);
 
-    // Task (ADMIN buat tugas)
+    // Task (buat tugas)
     Route::resource('tasks', TaskController::class)
-        ->except(['show', 'edit', 'update', 'destroy']);
+        ->except(['index', 'show', 'edit', 'update', 'destroy']);
 
-    // Supplier CRUD (ADMIN ONLY)
-    Route::get('/supplier/create', [SupplierController::class, 'create'])
-        ->name('supplier.create');
+    // ACC & TOLAK TUGAS
+    Route::post('/tasks/{task}/acc', [TaskController::class, 'approve'])
+        ->name('tasks.approve');
 
-    Route::post('/supplier', [SupplierController::class, 'store'])
-        ->name('supplier.store');
-
-    Route::get('/supplier/{supplier}/edit', [SupplierController::class, 'edit'])
-        ->name('supplier.edit');
-
-    Route::put('/supplier/{supplier}', [SupplierController::class, 'update'])
-        ->name('supplier.update');
-
-    Route::delete('/supplier/{supplier}', [SupplierController::class, 'destroy'])
-        ->name('supplier.destroy');
+    Route::post('/tasks/{task}/reject', [TaskController::class, 'reject'])
+        ->name('tasks.reject');
 });
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN & PETUGAS
-|--------------------------------------------------------------------------
-*/
-Route::middleware(['auth.check', 'role:admin,petugas'])->group(function () {
-
-    Route::resource('barang', BarangController::class);
-    Route::resource('barang-masuk', BarangMasukController::class);
-    Route::resource('barang-keluar', BarangKeluarController::class);
-});
-
-/*
-|--------------------------------------------------------------------------
-| PETUGAS
+| PETUGAS (OPERATOR)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth.check', 'role:petugas'])->group(function () {
+
+    // Barang masuk & keluar (operasional)
+    Route::resource('barang-masuk', BarangMasukController::class);
+    Route::resource('barang-keluar', BarangKeluarController::class);
 
     // Tugas saya
     Route::get('/my-tasks', [TaskController::class, 'myTasks'])
         ->name('tasks.my');
 
-    // Selesaikan tugas
+    // Kirim bukti tugas
     Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])
         ->name('tasks.complete');
 });
 
 /*
 |--------------------------------------------------------------------------
-| PETUGAS
+| PROFILE (PETUGAS & MANAJER)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth.check', 'role:manajer,petugas'])->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'index'])
         ->name('profile.index');
 

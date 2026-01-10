@@ -809,3 +809,10 @@
 .profile-trigger:hover {
     opacity: .85;
 }
+
+button,
+.btn,
+[data-bs-toggle="modal"] {
+    pointer-events: auto !important;
+    z-index: 10;
+}

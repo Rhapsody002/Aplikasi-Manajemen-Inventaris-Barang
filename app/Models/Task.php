@@ -14,7 +14,10 @@ class Task extends Model
         'user_id',
         'supplier_id',
         'lokasi_id',
-        'status'
+        'status',
+        'bukti_foto',
+        'acc_at',
+        'acc_by'
     ];
 
     public function barang()
@@ -32,4 +35,12 @@ class Task extends Model
         return $this->belongsTo(Lokasi::class);
     }
 
+    public function accBy()
+    {
+        return $this->belongsTo(User::class, 'acc_by');
+    }
+
+    protected $casts = [
+        'acc_at' => 'datetime',
+    ];
 }

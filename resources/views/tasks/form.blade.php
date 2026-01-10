@@ -71,7 +71,7 @@
 {{-- LOKASI PELETAKAN --}}
 <div class="form-group mb-3" id="lokasi-wrapper">
     <label class="fw-semibold">
-        Lokasi Peletakan
+        Lokasi Letak
         <small class="text-muted">(Tujuan barang)</small>
     </label>
 

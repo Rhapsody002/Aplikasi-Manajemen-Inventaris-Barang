@@ -11,19 +11,21 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Task::with(['barang', 'user', 'lokasi'])->latest();
+        $query = Task::with(['barang', 'user', 'lokasi', 'accBy'])
+            ->whereIn('status', ['selesai', 'ditolak'])
+            ->latest();
 
-        // PETUGAS hanya lihat tugas sendiri
+        // 🔐 PETUGAS hanya lihat history miliknya
         if (Auth::user()->role === 'petugas') {
             $query->where('user_id', Auth::id());
         }
 
-        // FILTER: TIPE
+        // 🔍 FILTER TIPE
         if ($request->filled('tipe')) {
             $query->where('tipe', $request->tipe);
         }
 
-        // FILTER: PETUGAS (ADMIN & MANAJER)
+        // 🔍 FILTER PETUGAS (ADMIN & MANAJER)
         if (
             $request->filled('user_id') &&
             in_array(Auth::user()->role, ['admin', 'manajer'])
@@ -31,7 +33,7 @@ class HistoryController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        // FILTER: TANGGAL
+        // 🔍 FILTER TANGGAL
         if ($request->filled('from')) {
             $query->whereDate('created_at', '>=', $request->from);
         }

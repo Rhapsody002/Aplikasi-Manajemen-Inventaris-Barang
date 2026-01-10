@@ -70,6 +70,6 @@ class ProfileController extends Controller
 
         return redirect()
             ->route('profile.index')
-            ->with('success', 'Profil berhasil diperbarui');
+            ->with('info', 'Profil berhasil diperbarui');
     }
 }

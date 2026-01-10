@@ -40,10 +40,11 @@
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
     <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
     {{-- DELETE CONFIRM KATEGORI --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -186,6 +187,106 @@
             });
         });
     </script>
+
+    {{-- FLASH MESSAGE SWEETALERT --}}
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: "{{ session('success') }}",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+    @endif
+
+    @if(session('info'))
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Diperbarui',
+            text: "{{ session('info') }}",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Dihapus',
+            text: "{{ session('error') }}",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+    @endif
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.btn-approve').forEach(btn => {
+                btn.addEventListener('click', function() {
+
+                    const judul = this.dataset.judul;
+                    const form = this.closest('form');
+
+                    Swal.fire({
+                        title: 'ACC Tugas?',
+                        text: `Setujui tugas "${judul}"?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#16a34a',
+                        cancelButtonColor: '#9ca3af',
+                        confirmButtonText: 'Ya, ACC',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+
+                });
+            });
+
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.btn-reject').forEach(btn => {
+                btn.addEventListener('click', function() {
+
+                    const judul = this.dataset.judul;
+                    const form = this.closest('form');
+
+                    Swal.fire({
+                        title: 'Tolak Tugas?',
+                        text: `Tolak tugas "${judul}"?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc2626',
+                        cancelButtonColor: '#9ca3af',
+                        confirmButtonText: 'Ya, Tolak',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+
+                });
+            });
+
+        });
+    </script>
+
 </body>
 
 </html>

@@ -78,7 +78,7 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('users.index')
-            ->with('success', 'User berhasil diperbarui');
+            ->with('info', 'User berhasil diperbarui');
     }
 
     public function destroy(User $user)
@@ -90,6 +90,6 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')
-            ->with('success', 'User berhasil dihapus');
+            ->with('error', 'User berhasil dihapus');
     }
 }

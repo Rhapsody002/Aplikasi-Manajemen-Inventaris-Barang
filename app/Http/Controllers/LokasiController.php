@@ -47,21 +47,19 @@ class LokasiController extends Controller
         $lokasi->update($data);
 
         return redirect()->route('lokasi.index')
-            ->with('success', 'Lokasi berhasil diperbarui');
+            ->with('info', 'Lokasi berhasil diperbarui');
     }
 
     public function destroy(Lokasi $lokasi)
     {
         if ($lokasi->barang()->count() > 0) {
-            return redirect()
-                ->route('lokasi.index')
-                ->with('lokasi_error');
+            return redirect()->route('lokasi.index')
+                ->with('error', 'Lokasi tidak dapat dihapus karena masih digunakan oleh barang.');
         }
 
         $lokasi->delete();
 
-        return redirect()
-            ->route('lokasi.index')
-            ->with('success');
+        return redirect()->route('lokasi.index')
+            ->with('error', 'Lokasi berhasil dihapus');
     }
 }

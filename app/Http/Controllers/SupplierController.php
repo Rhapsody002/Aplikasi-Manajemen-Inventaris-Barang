@@ -33,8 +33,8 @@ class SupplierController extends Controller
     {
         $data = $request->validate([
             'nama_supplier' => 'required|string|max:150',
-            'telepon'       => 'nullable|string|max:20',
-            'alamat'        => 'nullable|string',
+            'telepon'       => 'required|string|max:20',
+            'alamat'        => 'required|string',
             'logo_supplier' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -77,7 +77,7 @@ class SupplierController extends Controller
         $supplier->update($data);
 
         return redirect()->route('supplier.index')
-            ->with('success', 'Supplier berhasil diperbarui');
+            ->with('info', 'Supplier berhasil diperbarui');
     }
 
     public function destroy(Supplier $supplier)
@@ -88,6 +88,6 @@ class SupplierController extends Controller
 
         $supplier->delete();
 
-        return back()->with('success', 'Supplier berhasil dihapus');
+        return back()->with('error', 'Supplier berhasil dihapus');
     }
 }
